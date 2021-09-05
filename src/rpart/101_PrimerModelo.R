@@ -3,10 +3,11 @@ require("data.table")
 require("rpart")
 
 #Aqui se debe poner la carpeta de la computadora local
-setwd("M:\\")  #Establezco el Working Directory
+setwd("/home/lucas/Desktop/2021/Maestria/02.05.Data.Mining.E.y.F/TP/dmeyf/src/rpart/")  #Establezco el Working Directory
 
+seed <- 20
 #cargo los datos de 202009 que es donde voy a ENTRENAR el modelo
-dtrain  <- fread("./datasetsOri/paquete_premium_202009.csv")
+dtrain <- fread("./datasetsOri/paquete_premium_202009.csv")
 
 #genero el modelo
 modelo  <- rpart("clase_ternaria ~ .",
@@ -25,11 +26,15 @@ dapply  <- fread("./datasetsOri/paquete_premium_202011.csv")
 
 prediccion  <- predict( modelo, dapply , type = "prob") #aplico el modelo
 
+prediccion
 #prediccion es una matriz con TRES columnas, llamadas "BAJA+1", "BAJA+2"  y "CONTINUA"
 #cada columna es el vector de probabilidades 
 
 dapply[ , prob_baja2 := prediccion[, "BAJA+2"] ]
 dapply[ , Predicted  := as.numeric(prob_baja2 > 0.025) ]
+
+table(dapply[ as.numeric(prob_baja2 > 0.025), 'prob_baja2'])
+table(dapply[ as.numeric(prob_baja2 < 0.025), 'prob_baja2'])
 
 entrega  <- dapply[   , list(numero_de_cliente, Predicted) ] #genero la salida
 

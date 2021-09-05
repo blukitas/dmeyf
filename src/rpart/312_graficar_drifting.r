@@ -5,8 +5,8 @@ gc()             #garbage collection
 require("data.table")
 
 
-#cargo los datasets que voy a comparar
-setwd("~/buckets/b1/crudoB/" )  #establezco la carpeta donde voy a trabajar
+#Aqui se debe poner la carpeta de la computadora local
+setwd("/home/lucas/Desktop/2021/Maestria/02.05.Data.Mining.E.y.F/TP/dmeyf/src/rpart/")  #Establezco el Working Directory
 
 
 datasetA  <- fread( "./datasetsOri/paquete_premium_202009.csv" )

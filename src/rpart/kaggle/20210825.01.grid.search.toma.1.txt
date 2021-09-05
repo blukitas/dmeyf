@@ -1,0 +1,93 @@
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  2 . vminbucket:  1"
+[1] "gan"
+[1] 2935000
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  2 . vminbucket:  1 . gan:  2935000"
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  2 . vminbucket:  2"
+[1] "gan"
+[1] 2931250
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  2 . vminbucket:  2 . gan:  2931250"
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  2 . vminbucket:  3"
+[1] "gan"
+[1] 2931250
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  2 . vminbucket:  3 . gan:  2931250"
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  2 . vminbucket:  4"
+[1] "gan"
+[1] 2932500
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  2 . vminbucket:  4 . gan:  2932500"
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  2 . vminbucket:  5"
+[1] "gan"
+[1] 3033750
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  2 . vminbucket:  5 . gan:  3033750"
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  2 . vminbucket:  0"
+[1] "gan"
+[1] 2935000
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  2 . vminbucket:  0 . gan:  2935000"
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  4 . vminbucket:  1"
+[1] "gan"
+[1] 2935000
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  4 . vminbucket:  1 . gan:  2935000"
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  4 . vminbucket:  2"
+[1] "gan"
+[1] 2931250
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  4 . vminbucket:  2 . gan:  2931250"
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  4 . vminbucket:  3"
+[1] "gan"
+[1] 2931250
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  4 . vminbucket:  3 . gan:  2931250"
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  4 . vminbucket:  4"
+[1] "gan"
+[1] 2932500
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  4 . vminbucket:  4 . gan:  2932500"
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  4 . vminbucket:  5"
+[1] "gan"
+[1] 3033750
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  4 . vminbucket:  5 . gan:  3033750"
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  4 . vminbucket:  0"
+[1] "gan"
+[1] 2935000
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  4 . vminbucket:  0 . gan:  2935000"
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  8 . vminbucket:  1"
+[1] "gan"
+[1] 2935000
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  8 . vminbucket:  1 . gan:  2935000"
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  8 . vminbucket:  2"
+[1] "gan"
+[1] 2931250
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  8 . vminbucket:  2 . gan:  2931250"
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  8 . vminbucket:  3"
+[1] "gan"
+[1] 2931250
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  8 . vminbucket:  3 . gan:  2931250"
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  8 . vminbucket:  4"
+[1] "gan"
+[1] 2932500
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  8 . vminbucket:  4 . gan:  2932500"
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  8 . vminbucket:  5"
+[1] "gan"
+[1] 3033750
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  8 . vminbucket:  5 . gan:  3033750"
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  8 . vminbucket:  0"
+[1] "gan"
+[1] 2935000
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  8 . vminbucket:  0 . gan:  2935000"
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  10 . vminbucket:  1"
+[1] "gan"
+[1] 2935000
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  10 . vminbucket:  1 . gan:  2935000"
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  10 . vminbucket:  2"
+[1] "gan"
+[1] 2931250
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  10 . vminbucket:  2 . gan:  2931250"
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  10 . vminbucket:  3"
+[1] "gan"
+[1] 2931250
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  10 . vminbucket:  3 . gan:  2931250"
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  10 . vminbucket:  4"
+[1] "gan"
+[1] 2932500
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  10 . vminbucket:  4 . gan:  2932500"
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  10 . vminbucket:  5"
+[1] "gan"
+[1] 3033750
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  10 . vminbucket:  5 . gan:  3033750"
+[1] "vcp:  -1 . vmaxdepth:  4 . vminsplit:  15 . vminbucket:  1"

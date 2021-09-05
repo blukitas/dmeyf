@@ -3,14 +3,14 @@ rm(list=ls())   #remove all objects
 gc()            #garbage collection
 
 require("data.table")
+# install.packages("parallel")
 require("parallel")
 require("rpart")
 
-#setwd( "M:\\" )
-setwd( "~/buckets/b1/crudoB/" )
+setwd("/home/lucas/Desktop/2021/Maestria/02.05.Data.Mining.E.y.F/TP/dmeyf/src/rpart/")  #Establezco el Working Directory
 
-ksemillas  <- c(102191, 200177, 410551, 552581, 892237) #reemplazar por las propias semillas
-ksemilla_extra  <- 950009  #reemplazar por una elegida en el momento
+ksemillas  <- c(135221, 355847, 646577, 772921, 975257) #reemplazar por las propias semillas
+ksemilla_extra  <- 646577  #reemplazar por una elegida en el momento
 
 #------------------------------------------------------------------------------
 
@@ -78,11 +78,15 @@ tb_resultados  <- data.table( maxdepth=integer(), ganancia1=numeric(), ganancia5
 
 for(  vmaxdepth in  c(4,5,6,7,8,9,10,11) )
 {
+  print("vmaxdepth")
+  print(vmaxdepth)
   param_basicos  <- list( "cp"=-1, "minsplit"=20, "minbucket"=7,  "maxdepth"= vmaxdepth )
 
   gan1  <- ArbolesMontecarlo( dataset, param_basicos, ksemilla_extra )
+  print("ganancia 1")
   gan5  <- ArbolesMontecarlo( dataset, param_basicos, ksemillas )
-
+  print("ganancia 5")
+  
   tb_resultados  <- rbind( tb_resultados, list( vmaxdepth, gan1, gan5 ) )
 }
 

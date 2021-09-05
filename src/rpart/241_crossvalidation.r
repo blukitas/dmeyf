@@ -8,9 +8,9 @@ require("data.table")
 require("parallel")
 require("rpart")
 
-setwd( "M:\\" )
+setwd("/home/lucas/Desktop/2021/Maestria/02.05.Data.Mining.E.y.F/TP/dmeyf/src/rpart/")  #Establezco el Working Directory
 
-ksemillas  <- c(102191, 200177, 410551, 552581, 892237) #reemplazar por las propias semillas
+ksemillas  <- c(135221, 355847, 646577, 772921, 975257) #reemplazar por las propias semillas
 
 #------------------------------------------------------------------------------
 
@@ -47,13 +47,13 @@ ArbolSimple  <- function( fold_test, data, param )
 ArbolesCrossValidation  <- function( data, param, qfolds, semilla )
 {
   divi  <- rep( 1, qfolds )
-  particionar( data, divi, agrupa="clase_ternaria", seed=semilla )
+  particionar( data, divi, seed=semilla )
 
   ganancias  <- mcmapply( ArbolSimple, 
                           seq(qfolds), # 1 2 3 4 5  
                           MoreArgs= list( data, param), 
                           SIMPLIFY= FALSE,
-                          mc.cores= 1 )   #se puede subir a 5 si posee Linux o Mac OS
+                          mc.cores= 4 )   #se puede subir a 5 si posee Linux o Mac OS
 
   #devuelvo la primer ganancia y el promedio
   return( mean( unlist( ganancias )) *  qfolds )   #aqui normalizo
@@ -69,6 +69,8 @@ tb_resultados  <- data.table( maxdepth=integer(), ganancia=numeric() )
 
 for(  vmaxdepth in  c(4,5,6,7,8,9,10,11) )
 {
+  print('vmaxdepth')
+  print(vmaxdepth)
   param_basicos  <- list( "cp"=-1, "maxdepth"= vmaxdepth )
 
   gan  <- ArbolesCrossValidation( dataset, 

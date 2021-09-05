@@ -22,10 +22,15 @@ require("mlrMBO")
 switch ( Sys.info()[['sysname']],
          Windows = { directory.root   <-  "M:\\" },   #Microsoft Windows
          Darwin  = { directory.root   <-  "~/dm/" },  #Apple MAC
-         Linux   = { directory.root   <-  "~/buckets/b1/crudo/" }  #Entorno Google Cloud
+         # Linux   = { directory.root   <-  "~/buckets/b1/crudo/" }  #Entorno Google Cloud
+         Linux   = { directory.root   <-  "/home/lucas/Desktop/2021/Maestria/02.05.Data.Mining.E.y.F/TP/dmeyf/src/rpart/" }  #Entorno Google Cloud
        )
 #defino la carpeta donde trabajo
-setwd( directory.root )
+# setwd( directory.root )
+
+
+#Aqui se debe poner la carpeta de la computadora local
+setwd("/home/lucas/Desktop/2021/Maestria/02.05.Data.Mining.E.y.F/Repo.TP/dmeyf/src/rpart/")  #Establezco el Working Directory
 
 
 kexperimento  <- NA   #NA si se corre la primera vez, un valor concreto si es para continuar procesando
@@ -33,9 +38,10 @@ kexperimento  <- NA   #NA si se corre la primera vez, un valor concreto si es pa
 kscript           <- "320_rpart_BO"
 karch_generacion  <- "./datasetsOri/paquete_premium_202009.csv"
 karch_aplicacion  <- "./datasetsOri/paquete_premium_202011.csv"
-kBO_iter    <-  200   #cantidad de iteraciones de la Optimizacion Bayesiana
+kBO_iter    <-  500   #cantidad de iteraciones de la Optimizacion Bayesiana
 
 hs  <- makeParamSet(
+  # TODO: Que onda el numeric param? En que rango lo hará?
           makeNumericParam("cp"       , lower= -1   , upper=    0.1),
           makeIntegerParam("minsplit" , lower=  1L  , upper= 8000L),  #la letra L al final significa ENTERO
           makeIntegerParam("minbucket", lower=  1L  , upper= 2000L),
@@ -43,7 +49,8 @@ hs  <- makeParamSet(
           forbidden = quote( minbucket > 0.5*minsplit ) )
 
 
-ksemilla_azar  <- 102191
+# ksemilla_azar  <- 102191
+ksemilla_azar  <- 200177
 #------------------------------------------------------------------------------
 #Funcion que lleva el registro de los experimentos
 
@@ -203,6 +210,22 @@ if( file.exists(klog) )
 dataset  <- fread(karch_generacion)   #donde entreno
 dapply  <- fread(karch_aplicacion)    #donde aplico el modelo
 
+
+## Drop de columnas con data drifting
+drop_cols = c('internet'
+              ,'tmobile_app'
+              ,'cmobile_app_trx'
+              ,'mtarjeta_visa_descuentos'
+              ,'mtarjeta_master_descuentos'
+              ,'mcajeros_propios_descuentos'
+              ,'Master_madelantodolares'
+              ,'Visa_msaldodolares'
+              # ,'Master_Finiciomora'
+              # ,'Visa_Finiciomora'
+)
+# dataset <- dataset[ ,.SD, .SDcols = !drop_cols]
+# dapply <- dapply[ ,.SD, .SDcols = !drop_cols]
+
 #Aqui comienza la configuracion de la Bayesian Optimization
 
 configureMlr( show.learner.output = FALSE)
@@ -223,6 +246,7 @@ ctrl  <- makeMBOControl( save.on.disk.at.time= 600,  save.file.path= kbayesiana)
 ctrl  <- setMBOControlTermination(ctrl, iters= kBO_iter )
 ctrl  <- setMBOControlInfill(ctrl, crit= makeMBOInfillCritEI())
 
+# install.packages("DiceKriging")
 surr.km  <-  makeLearner("regr.km", predict.type= "se", covtype= "matern3_2", control= list(trace= TRUE))
 
 #inicio la optimizacion bayesiana
@@ -231,6 +255,6 @@ if(!file.exists(kbayesiana)) {
 } else  run  <- mboContinue( kbayesiana )   #retomo en caso que ya exista
 
 
-quit( save="no" )
+# quit( save="yes" )
 
 

@@ -5,8 +5,10 @@ gc()             #garbage collection
 require("data.table")
 
 
-#Aqui comienza el programa
-setwd("~/buckets/b1/crudoB/")
+#Aqui se debe poner la carpeta de la computadora local
+setwd("/home/lucas/Desktop/2021/Maestria/02.05.Data.Mining.E.y.F/TP/dmeyf/src/rpart/")  #Establezco el Working Directory
+
+seed <- 20
 
 datasetA  <- fread( "./datasetsOri/paquete_premium_202009.csv" )
 datasetB  <- fread( "./datasetsOri/paquete_premium_202011.csv" )

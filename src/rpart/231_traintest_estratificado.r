@@ -18,12 +18,12 @@ particionar  <- function( data,  division, agrupa="",  campo="fold", start=1, se
 #------------------------------------------------------------------------------
 
 #Aqui se debe poner la carpeta de la computadora local
-setwd("M:\\")  #Establezco el Working Directory
+setwd("/home/lucas/Desktop/2021/Maestria/02.05.Data.Mining.E.y.F/TP/dmeyf/src/rpart/")  #Establezco el Working Directory
 
 #cargo los datos
 dataset  <- fread("./datasetsOri/paquete_premium_202009.csv")
 
-particionar( dataset, division=c(70,30), agrupa="clase_ternaria", seed= 102191 )  #Cambiar por la primer semilla de cada uno !
+particionar( dataset, division=c(70,30), agrupa="clase_ternaria", seed= 135221 )  #Cambiar por la primer semilla de cada uno !
 
 #genero el modelo
 modelo  <- rpart("clase_ternaria ~ .",
