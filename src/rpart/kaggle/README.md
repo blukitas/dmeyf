@@ -67,9 +67,47 @@ Dataset usado en cada uno:
 	* Las de fecha tienen una forma de sinusoidal interesante
 * Versionar dataset + parametros + resultado
 
+* Normalizar pesos?
+	* Mensaje de Gustavo para => @Antonio Velazquez Bustamante con respecto a "estoy investigando aplicar transformaciones logarítmicas a las variables" los arboles de decisión y sus primos mayores Random Forest y Gradient Boosting of Decision Trees son INSENSIBLES a transformaciones univariadas estrictamente monótonas de los atributos, por ejemplo normalizar un atributo, calcularle el logaritmo, una transformación lineal del tipo ax + b, etc.
+	* Atencion, distinto es que vos tengas los atributos v1 y v2 y los combines, y crees el cociente v1/v2 , o log(v1) + log(v2) , etc
+* Ajuste por inflacion?
 	
 
 
+* LightGBM 
+	* Antonio Velazquez Bustamante Adrian Norberto Marino A mi me gusta trabajar con LightGBM, que corre tres o cuatro veces más rápido que XGBoost ( tanto R, Python y Julia llaman al mismo XGBoost y LightGBM, ya que estos dos últimos están programados en C/C++ )
+	* Los hiperparámetros que optimizo de LightGBM con una Bayesian Optimization son:
+		* min_data_in_leaf de 1 a 5000
+		* num_leaves de 16 a 1024
+		* feature_fraction de 0.1 a 1.0
+		* learning_rate de 0.01 a 0.1
+
+	* Parámetros que dejo FIJOS en LightGBM
+		* objective= "binary"
+		* metric= "custom"
+		* first_metric_only= TRUE
+	 	* boost_from_average= TRUE
+		* feature_pre_filter= FALSE
+
+		* max_bin=31
+
+		* early_stopping_rounds= as.integer(50 + 5/x$learning_rate)
+		* num_iterations= 99999 #Lo frena el Early Stopping
+	* Finalmente, uso como eval= fganancia_logistic_lightgbm donde la función es la función de la materia
+
+		fganancia_logistic_lightgbm <- function(probs, datos)
+		{
+		vlabels <- getinfo(datos, "label")
+
+		gan <- sum( (probs > PROB_CORTE ) * ifelse( vlabels== 1, 48750, -1250 )
+		)
+
+		return( list( "name"= "ganancia",
+		"value"= gan,
+		"higher_better"= TRUE ) )
+		}
+
+	* Otra cosa interesante, para Light GBM me pareció mucho más simple instalar la versión con soporte para GPU en R (Con XGBoost es mas complicado).
 
 
 

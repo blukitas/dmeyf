@@ -49,8 +49,8 @@ hs  <- makeParamSet(
           forbidden = quote( minbucket > 0.5*minsplit ) )
 
 
-# ksemilla_azar  <- 102191
-ksemilla_azar  <- 200177
+ksemilla_azar  <- 102191
+# ksemilla_azar  <- 200177
 #------------------------------------------------------------------------------
 #Funcion que lleva el registro de los experimentos
 

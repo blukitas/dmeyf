@@ -136,6 +136,7 @@ dmypy.json
 .Rproj.user
 .Rhistory
 .RData
+*.RDATA
 .Ruserdata
 
 # Data files
