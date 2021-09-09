@@ -56,7 +56,7 @@ Empecemos con un poco de *gimnasia algorítmica:*
 
 **Preguntas sobre árboles**
 
--   ¿Es posible encontrar ganancia positiva en un corte sobre una variable?
+-   ¿Es posible encontrar ganancia positiva en ambos intervalos en un corte sobre una variable?
 
 -   ¿Cuál es la cardinalidad de los *intervalos* que dan ganancia?
 
@@ -268,7 +268,7 @@ hojasbinario <- tablahojas(arbolbinario, ds, "clase_binaria")
 ```
 
 ```{r}
-hojasbinario
+hojasbinario[,]
 ```
 
 Agreguemos una variable de `ganancia` y revisemos rápidamente la ganancia que obtenemos por clase *evento*
@@ -431,6 +431,11 @@ Las variables que construimos para llegar a este resultado, son muy útiles para
 ```{r}
 
 hojasordenadas[, acc:= ((tp + tn)/(tp+tn+fp+fn))]
+
+```
+
+```{r}
+hojasordenadas[,]
 
 ```
 
@@ -642,7 +647,7 @@ Como las cantidades de los conjuntos de datos son distintas, igual van a ser sus
 Ganancia normalizada de entrenamiento:
 
 ```{r}
-ganancia(pred_training[,"evento"], train$clase_binaria) / 0.7
+ganancia(pred_training[,"evento"], train$clase_binaria)/ 0.7 
 ```
 
 Ganancia normalizada de prueba
@@ -651,7 +656,7 @@ Ganancia normalizada de prueba
 ganancia(pred_testing[,"evento"], test$clase_binaria) / 0.3
 ```
 
-Observamos que el **overfitting** se observa en la ganancia de una forma más pronunciadade la afecta a las **AUCs**.
+Observamos que el **overfitting** se observa en la ganancia de una forma más pronunciada afecta a las **AUCs**.
 
 Pero antes de ver como podemos mejorar el **overfitting**, veamos otro fenómeno interesante.
 Modelemos, pero probando distintas semillas.
@@ -875,7 +880,7 @@ resultados_md <- fread("cache/02_DT_md_100.csv")
 Y simplemente visualizamos con una orquesta de violines los distintos valores de `md` y la distribución producto de las 100 semillas para cada uno.
 
 ```{r}
-ggplot(resultados_md[type == "test", ], aes(factor(md), auc)) + geom_violin()
+ggplot(resultados_md[type == "test", ], aes(factor(md), ganancia / 0.3)) + geom_violin()
 
 ```
 
