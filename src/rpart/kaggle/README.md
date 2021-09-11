@@ -54,6 +54,67 @@ Dataset usado en cada uno:
 	    * 'Master_Finiciomora'
 	    * 'Visa_Finiciomora'
 
+* E1012 ->
+	* Espacio de búsqueda sin modificación 
+	* Ejecución total
+	* 500 iteraciones
+	* Seed: 102191
+	* Features del script 610
+	* Drop de columnas con posible data drifting
+		* 'internet'
+        * 'tmobile_app'
+        * 'cmobile_app_trx'
+        * 'mtarjeta_visa_descuentos'
+        * 'mtarjeta_master_descuentos'
+        * 'mcajeros_propios_descuentos'
+        * 'Master_madelantodolares'
+        * 'Visa_msaldodolares'
+	    * 'Master_Finiciomora'
+	    * 'Visa_Finiciomora'
+
+* E1013 ->
+	* Espacio de búsqueda sin modificación 
+	* Ejecución total
+	* 500 iteraciones
+	* Seed: 102191
+	* Features del script 610
+	* Drop de columnas con posible data drifting
+		* 'internet'
+        * 'tmobile_app'
+        * 'cmobile_app_trx'
+        * 'mtarjeta_visa_descuentos'
+        * 'mtarjeta_master_descuentos'
+        * 'mcajeros_propios_descuentos'
+        * 'Master_madelantodolares'
+        * 'Visa_msaldodolares'
+	    * 'Master_Finiciomora'
+	    * 'Visa_Finiciomora'
+
+* arboles_azarosos_aplicar_tds_001 -> Todas las features, scripts con 420_arboles_azarosos_aplicar, sin drop de columnas. 50 arboles.
+	* 10.67
+
+* arboles_azarosos_aplicar_sin_fecha_mora_001.csv -> Filtro fechas, pero con días de mora, 420_arboles_azarosos_aplicar, 50 árboles
+	* 10.09
+
+* arboles_azarosos_aplicar_ext_fmora_50001 -> Sin fecha inicio mora, 50 arboles, features ext, 420_arboles_azarosos_aplicar
+	* 11.59050
+
+* E1026 ->
+	* Búsqueda de random forest
+	* Iteraciones: 500
+	* Semilla: 102191
+	* Espacio de búsqueda:
+		* "num.trees" ,        lower=  2L  , upper=  500L
+		* "max.depth",         lower=  0L  , upper=   20L
+		* "min.node.size" ,    lower=  1L  , upper=  500L
+		* "mtry" ,             lower=  2L  , upper=   50L
+	* Datasets: 
+		* paquete_premium_202009.csv
+		* paquete_premium_202011.csv
+	* Sin drop de columnas
+
+
+
 
 
 ## Ideas
