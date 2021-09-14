@@ -233,7 +233,7 @@ dapply  <- na.roughfix( dapply )
 #               ,'mtarjeta_visa_descuentos'
 #               ,'mtarjeta_master_descuentos'
 #               ,'mcajeros_propios_descuentos'
-#               ,'Master_madelantodolares'
+#               ,'Master_madelantod olares'
 #               ,'Visa_msaldodolares'
 #               ,'Master_Finiciomora'
 #               ,'Visa_Finiciomora'

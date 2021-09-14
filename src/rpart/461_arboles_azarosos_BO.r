@@ -25,11 +25,11 @@ setwd("/home/lucas/Desktop/2021/Maestria/02.05.Data.Mining.E.y.F/Repo.TP/dmeyf/s
 kexperimento  <- NA   #NA si se corre la primera vez, un valor concreto si es para continuar procesando
 
 kscript           <- "461_arboles_azarosos_BO"
-# karch_generacion  <- "./datasetsOri/paquete_premium_202009.csv"
-# karch_aplicacion  <- "./datasetsOri/paquete_premium_202011.csv"
-karch_generacion  <- "./datasets/paquete_premium_202009_ext.csv"
-karch_aplicacion  <- "./datasets/paquete_premium_202011_ext.csv"
-kBO_iter    <-  600   #cantidad de iteraciones de la Optimizacion Bayesiana
+karch_generacion  <- "./datasetsOri/paquete_premium_202009.csv"
+karch_aplicacion  <- "./datasetsOri/paquete_premium_202011.csv"
+# karch_generacion  <- "./datasets/paquete_premium_202009_ext.csv"
+# karch_aplicacion  <- "./datasets/paquete_premium_202011_ext.csv"
+kBO_iter    <-  10   #cantidad de iteraciones de la Optimizacion Bayesiana
 
 hs  <- makeParamSet(
           makeNumericParam("cp"       ,         lower= -1   , upper=    0.1),
@@ -148,7 +148,7 @@ ArbolesAzarosos_CrossValidation  <- function( data, param, pcampos_buenos, qfold
                           seq(qfolds), # 1 2 3 4 5  
                           MoreArgs= list( data, param, pcampos_buenos), 
                           SIMPLIFY= FALSE,
-                          mc.cores= 5 )   #se puede subir a 5 si posee Linux o Mac OS
+                          mc.cores= 1 )   #se puede subir a 5 si posee Linux o Mac OS
                                           #Se se usa Windows, obligatoriamente debe ser  1
 
   data[ , fold := NULL ]
@@ -229,6 +229,8 @@ EstimarGanancia_ArbolesAzarosos  <- function( x )
 #------------------------------------------------------------------------------
 #Aqui empieza el programa
 
+print(paste0("INICIO iteracion. Fecha", format(Sys.time(), "%Y%m%d %H%M%S")))
+
 if( is.na(kexperimento ) )   kexperimento <- get_experimento()  #creo el experimento
 
 #en estos archivos quedan los resultados
@@ -262,8 +264,8 @@ drop_cols = c('internet'
               ,'mcajeros_propios_descuentos'
               ,'Master_madelantodolares'
               ,'Visa_msaldodolares'
-              ,'Master_Finiciomora'
-              ,'Visa_Finiciomora'
+              # ,'Master_Finiciomora'
+              # ,'Visa_Finiciomora'
 )
 dataset <- dataset[ ,.SD, .SDcols = !drop_cols]
 dapply <- dapply[ ,.SD, .SDcols = !drop_cols]
