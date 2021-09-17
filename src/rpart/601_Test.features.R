@@ -9,30 +9,33 @@ setwd("/home/lucas/Desktop/2021/Maestria/02.05.Data.Mining.E.y.F/Repo.TP/dmeyf/s
 seed <- 200177
 
 # #cargo los datos de 202009 que es donde voy a ENTRENAR el modelo
-# dtrain <- fread("./datasetsOri/paquete_premium_202009.csv")
+dtrain <- fread("./datasetsOri/paquete_premium_202009.csv")
 # #cargo los datos de 202011, que es donde voy a APLICAR el modelo
-# dapply  <- fread("./datasetsOri/paquete_premium_202011.csv")
+dapply  <- fread("./datasetsOri/paquete_premium_202011.csv")
 #cargo los datos de 202009 que es donde voy a ENTRENAR el modelo
-dtrain <- fread("./datasets/paquete_premium_202009_ext.csv")
+# dtrain <- fread("./datasets/paquete_premium_202009_ext.csv")
 #cargo los datos de 202011, que es donde voy a APLICAR el modelo
-dapply  <- fread("./datasets/paquete_premium_202011_ext.csv")
+# dapply  <- fread("./datasets/paquete_premium_202011_ext.csv")
 
 
 ## Drop de columnas con data drifting
-drop_cols = c('internet'
-             ,'tmobile_app'
-             ,'cmobile_app_trx'
-             ,'mcajeros_propios_descuentos'
-             ,'mtarjeta_visa_descuentos'
-             ,'mtarjeta_master_descuentos'
-             ,'mcajeros_propios_descuentos'
-             ,'Master_madelantodolares'
-             ,'Visa_msaldodolares'
-             # ,'Master_Finiciomora'
-             # ,'Visa_Finiciomora'
+drop_cols = c(  "ccajas_transacciones"
+                , "Master_mpagominimo"
+                ,'internet'
+                ,'tmobile_app'
+                ,'cmobile_app_trx'
+                # ,'mtarjeta_visa_descuentos'
+                # ,'mtarjeta_master_descuentos'
+                # ,'mcajeros_propios_descuentos'
+                # ,'Master_madelantodolares'
+                # ,'Visa_msaldodolares'
+                # ,'Master_Finiciomora'
+                # ,'Visa_Finiciomora'
+                
 )
-dtrain <- dtrain[ ,.SD, .SDcols = !drop_cols]
+dataset <- dataset[ ,.SD, .SDcols = !drop_cols]
 dapply <- dapply[ ,.SD, .SDcols = !drop_cols]
+
 
 #genero el modelo
 modelo  <- rpart("clase_ternaria ~ .",

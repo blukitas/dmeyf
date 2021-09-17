@@ -256,16 +256,19 @@ dapply  <- fread(karch_aplicacion)    #donde aplico el modelo
 
 
 ## Drop de columnas con data drifting
-drop_cols = c('internet'
-              ,'tmobile_app'
-              ,'cmobile_app_trx'
-              ,'mtarjeta_visa_descuentos'
-              ,'mtarjeta_master_descuentos'
-              ,'mcajeros_propios_descuentos'
-              ,'Master_madelantodolares'
-              ,'Visa_msaldodolares'
+drop_cols = c(  "ccajas_transacciones"
+               , "Master_mpagominimo"
+               ,'internet'
+               ,'tmobile_app'
+               ,'cmobile_app_trx'
+              # ,'mtarjeta_visa_descuentos'
+              # ,'mtarjeta_master_descuentos'
+              # ,'mcajeros_propios_descuentos'
+              # ,'Master_madelantodolares'
+              # ,'Visa_msaldodolares'
               # ,'Master_Finiciomora'
               # ,'Visa_Finiciomora'
+              
 )
 dataset <- dataset[ ,.SD, .SDcols = !drop_cols]
 dapply <- dapply[ ,.SD, .SDcols = !drop_cols]

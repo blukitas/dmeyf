@@ -1,0 +1,17 @@
+Matias Poullain18:10
+Hola a todos!
+Estuve pensando sobre que tan diferentes son los valores de las variables en el dataset de entrenamiento con los del dataset de test. De ser muy distintos, toda la hiperparametrización y entrenamiento que se hace no va a tener buenas predicciones de ganancia sobre test (no??).
+Para corroborar si efectivamente son distintos o no se me ocurrió entrenar un modelo cuyo target sea el dataset origen del dato. Si el modelo es muy bueno (sin overfittear, claro), me estaría diciendo que en alguna(s) de la(s) variable(s) hay diferencias entre ambos datasets. Para identificar cuales, usé como variables "control" de la no diferencia entre datasets a 2 variables canario.
+Con esto en mente, uní los datasets, puse una nueva variable (que voy a usar como target) que etiqueta de qué dataset proviene la fila e hiperparametricé (un poco, con Bayes) un XGBoost con un 5 folds-CV.
+Agregué al dataset 2 variables canario y entrené un modelo final con un nuevo 5 folds-CV entrenando sobre el 30% del dataset y validando sobre el 70% (para asegurarme no overfittear [lo estoy asegurando??]), saque el promedio de la importancia en Gain de cada variable y busque en que puesto se encontraban los canarios.
+Asumiendo que no estoy overfitteando, supuse que las variables con mayor Gain que las canario son buenas predictoras del dataset de origen de la fila y las borro (ya que ayudarían al overfitting del modelo de ganancia). Repetí este proceso hasta que alguna de las canario esté en el "Top 10" (eleccion arbitraria) de las variables con más Gain.
+
+Enfin, ya borre como 70 variables, aca va el resultado de la ultima iteración, con las variables con las que me quedaría para entrenar el modelo de ganancia (sin las canario):
+
+Importancia-de-variables-finales.png
+
+
+Si bien parece que algunas de las variables tiene mucho Gain, el de las que borre eran muchisimo más altos. Con cada iteración, la performance del modelo (AUC promedio sobre los test del CV) bajo de 1 a 0.7 aprox (lo cual entiendo que es bueno en este caso).
+
+Alguno estuvo analizando la relacion entre los valores de las variables y los datasets? Recuerdo de una compañera que lo comento sobre una de las columnas.
+Existe una manera mejor de ver que variables van a joder a la hora de predecir sobre un dataset de test que NO es una muestra aleatoria del dataset de train?

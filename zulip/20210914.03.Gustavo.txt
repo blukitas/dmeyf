@@ -1,0 +1,10 @@
+
+Se ha terminado la injusticia de aquellos que se aprovechaban de sus compañeros haciendo uso de sus conocimentos de XGBoost y LightGBM
+En el repo de la materia está disponible /src/lightgbm/666_lightgbm_con_los_pibes_NO.r
+que usa estas ideas:
+
+Elimina apenas dos variables del dataset que están causando Data Drifting, : "ccajas_transacciones", "Master_mpagominimo"
+En lugar de trabajar con la clase ternaria, se trabaja con la clase binaria pos={ BAJA+2, BAJA+1} , neg= {CONTINUA} , lo que implica para esta configuración pasar del punto de corte 0.025 a 0.031
+Genera hermosos árboles de hojas muy grandes, de 4000 o más registros
+Para la etapa de discretización que tiene LightGBM, divide en apenas 15 rangos
+No se utiliza Feature Engineering

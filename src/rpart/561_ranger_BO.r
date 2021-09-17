@@ -211,8 +211,18 @@ if( file.exists(klog) )
 }
 
 
+## Drop de columnas con data drifting
+drop_cols = c(  "ccajas_transacciones"
+                , "Master_mpagominimo"
+                ,'internet'
+                ,'tmobile_app'
+                ,'cmobile_app_trx'
+)
+
+
 #cargo el datset donde voy a entrenar
 dataset  <- fread(karch_generacion, stringsAsFactors= TRUE)   #donde entreno
+dataset <- dataset[ ,.SD, .SDcols = !drop_cols]
 
 dataset[ , clase_binaria := as.factor(ifelse( clase_ternaria=="BAJA+2", "POS", "NEG" )) ]
 dataset[ , clase_ternaria := NULL ]  #elimino la clase_ternaria, ya no la necesito
@@ -223,23 +233,10 @@ dataset  <- na.roughfix( dataset )
 
 #cargo el dataset donde voy a aplicar el modelo, que NO tiene clase
 dapply   <- fread(karch_aplicacion, stringsAsFactors= TRUE)   #donde aplico el modelo
+dapply <- dapply[ ,.SD, .SDcols = !drop_cols]
+
 dapply[ , clase_ternaria := NULL ]  #Elimino esta columna que esta toda en NA
 dapply  <- na.roughfix( dapply )
-
-## Drop de columnas con data drifting
-# drop_cols = c('internet'
-#               ,'tmobile_app'
-#               ,'cmobile_app_trx'
-#               ,'mtarjeta_visa_descuentos'
-#               ,'mtarjeta_master_descuentos'
-#               ,'mcajeros_propios_descuentos'
-#               ,'Master_madelantod olares'
-#               ,'Visa_msaldodolares'
-#               ,'Master_Finiciomora'
-#               ,'Visa_Finiciomora'
-# )
-# dtrain <- dtrain[ ,.SD, .SDcols = !drop_cols]
-# dapply <- dapply[ ,.SD, .SDcols = !drop_cols]
 
 #Aqui comienza la configuracion de la Bayesian Optimization
 

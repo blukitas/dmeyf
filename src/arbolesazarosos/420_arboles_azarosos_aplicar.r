@@ -8,29 +8,51 @@ require("data.table")
 require("rpart")
 
 #Aqui se debe poner la carpeta de la computadora local
-setwd("~/buckets/b1/crudoB/")  #Establezco el Working Directory
+setwd("/home/lucas/Desktop/2021/Maestria/02.05.Data.Mining.E.y.F/Repo.TP/dmeyf/src/rpart/")  #Establezco el Working Directory
 
+# karch_generacion  <- "./datasetsOri/paquete_premium_202009.csv"
+# karch_aplicacion  <- "./datasetsOri/paquete_premium_202011.csv"
+karch_generacion  <- "./datasets/paquete_premium_202009_ext.csv"
+karch_aplicacion  <- "./datasets/paquete_premium_202011_ext.csv"
 #cargo los datos donde entreno
-dtrain  <- fread("./datasetsOri/paquete_premium_202009.csv")
-
+dtrain  <- fread(karch_generacion)
 #cargo los datos donde aplico el modelo
-dapply  <- fread("./datasetsOri/paquete_premium_202011.csv")
+dapply  <- fread(karch_aplicacion)
 
+
+## Drop de columnas con data drifting
+drop_cols = c(  "ccajas_transacciones"
+                , "Master_mpagominimo"
+                ,'internet'
+                ,'tmobile_app'
+                ,'cmobile_app_trx'
+                # ,'mtarjeta_visa_descuentos'
+                # ,'mtarjeta_master_descuentos'
+                # ,'mcajeros_propios_descuentos'
+                # ,'Master_madelantodolares'
+                # ,'Visa_msaldodolares'
+                # ,'Master_Finiciomora'
+                # ,'Visa_Finiciomora'
+                
+)
+dataset <- dataset[ ,.SD, .SDcols = !drop_cols]
+dapply <- dapply[ ,.SD, .SDcols = !drop_cols]
 
 #Establezco cuales son los campos que puedo usar para la prediccion
-campos_buenos  <- setdiff(  colnames(dtrain) ,  c("clase_ternaria") )
+# campos_buenos  <- setdiff(  colnames(dtrain) ,  c("clase_ternaria") )
+campos_buenos  <- setdiff(  colnames(dtrain) ,  drop_cols )
 
 
 #----------------------------------------------------
 #Aqui debo poner los parametros que quiero aplicar---
 
-num_trees         <-  10    #voy a generar 10 arboles
+num_trees         <-  50    #voy a generar 10 arboles
 feature_fraction  <-   0.5  #entreno cada arbol con solo 50% de las variables variables
 
-parametros  <-  list( "cp"= -1,
-                      "minsplit"= 600,
-                      "minbucket"= 100,
-                      "maxdepth"= 5 )
+parametros  <-  list( "cp"= -0.980973448759374,
+                      "minsplit"= 1400,
+                      "minbucket"= 406,
+                      "maxdepth"= 6 )
 
 #----------------------------------------------------
 

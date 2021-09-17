@@ -20,15 +20,18 @@ require("mlrMBO")
 
 
 #defino la carpeta donde trabajo
-setwd( "~/buckets/b1/crudoB/"  )
+setwd("/home/lucas/Desktop/2021/Maestria/02.05.Data.Mining.E.y.F/Repo.TP/dmeyf/src/rpart/")  #Establezco el Working Directory
 
 
 kexperimento  <- NA   #NA si se corre la primera vez, un valor concreto si es para continuar procesando
 
-kscript           <- "560_ranger_BO"
-karch_generacion  <- "./datasetsOri/paquete_premium_202009.csv"
-karch_aplicacion  <- "./datasetsOri/paquete_premium_202011.csv"
-kBO_iter    <-  150   #cantidad de iteraciones de la Optimizacion Bayesiana
+kscript           <- "561_ranger_BO"
+# karch_generacion  <- "./datasetsOri/paquete_premium_202009.csv"
+# karch_aplicacion  <- "./datasetsOri/paquete_premium_202011.csv"
+karch_generacion  <- "./datasets/paquete_premium_202009_ext.csv"
+karch_aplicacion  <- "./datasets/paquete_premium_202011_ext.csv"
+
+kBO_iter    <-  500   #cantidad de iteraciones de la Optimizacion Bayesiana
 
 hs  <- makeParamSet(
           makeIntegerParam("num.trees" ,        lower=  2L  , upper=  500L),  #la letra L al final significa ENTERO
@@ -37,6 +40,7 @@ hs  <- makeParamSet(
           makeIntegerParam("mtry" ,             lower=  2L  , upper=   50L))
 
 ksemilla_azar  <- 102191  #Aqui poner la propia semilla
+# ksemilla_azar  <- 200177  #Aqui poner la propia semilla
 #------------------------------------------------------------------------------
 #Funcion que lleva el registro de los experimentos
 
@@ -222,7 +226,20 @@ dapply   <- fread(karch_aplicacion, stringsAsFactors= TRUE)   #donde aplico el m
 dapply[ , clase_ternaria := NULL ]  #Elimino esta columna que esta toda en NA
 dapply  <- na.roughfix( dapply )
 
-
+## Drop de columnas con data drifting
+drop_cols = c('internet'
+              ,'tmobile_app'
+              ,'cmobile_app_trx'
+              ,'mtarjeta_visa_descuentos'
+              ,'mtarjeta_master_descuentos'
+              ,'mcajeros_propios_descuentos'
+              ,'Master_madelantodolares'
+              ,'Visa_msaldodolares'
+              ,'Master_Finiciomora'
+              ,'Visa_Finiciomora'
+)
+dtrain <- dtrain[ ,.SD, .SDcols = !drop_cols]
+dapply <- dapply[ ,.SD, .SDcols = !drop_cols]
 
 #Aqui comienza la configuracion de la Bayesian Optimization
 
