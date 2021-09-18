@@ -1,0 +1,8 @@
+
+Gustavo Denicolay: mpagodeservicios incluye lo pagado con mcuenta_debitos_automaticos, por pagomiscuentas, etc? En principio SI
+
+Gustavo Denicolay: mautoservicio, incluye tanto las compras en comercios como los movimientos en cajeros? Para mi, matuservicio no incluye compras en comercios, PERO no estoy al tanto si incluye o no cuando vas a un comercio y sacás dinero en la caja de ese comercio.
+
+Ignacio Ibarra: ok, gracias Gustavo. Tengo otra qué significa inversión tipo 1 o tipo 2?
+
+Gustavo Denicolay: bonos del estado, acciones
