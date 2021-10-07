@@ -100,7 +100,7 @@ loguear  <- function( reg, arch=NA, folder="./work/", ext=".txt", verbose=TRUE )
 
 VPROBS_CORTE  <- c()
 
-fganancia_logistic_lightgbm   <- function(probs, datos) 
+fganancia_logistic_lightgbm_meseta  <- function(probs, datos) 
 {
   vlabels  <- getinfo(datos, "label")
   vpesos   <- getinfo(datos, "weight")
@@ -154,7 +154,8 @@ EstimarGanancia_lightgbm  <- function( x )
   VPROBS_CORTE  <<- c()
   set.seed( 999983 )
   modelocv  <- lgb.cv( data= dtrain,
-                       eval= fganancia_logistic_lightgbm,
+                       valids= list( valid= dvalid ),
+                       eval= fganancia_logistic_lightgbm_meseta,
                        stratified= TRUE, #sobre el cross validation
                        nfold= kfolds,    #folds del cross validation
                        param= param_completo,
@@ -172,9 +173,9 @@ EstimarGanancia_lightgbm  <- function( x )
   param_completo["prob_corte"]  <- mean( VPROBS_CORTE )
 
    #si tengo una ganancia superadora, genero el archivo para Kaggle
-   if(  ganancia > GLOBAL_ganancia_max )
+   if(  ganancia_normalizada > GLOBAL_ganancia_max )
    {
-     GLOBAL_ganancia_max  <<- ganancia  #asigno la nueva maxima ganancia a una variable GLOBAL, por eso el <<-
+     GLOBAL_ganancia_max  <<- ganancia_normalizada  #asigno la nueva maxima ganancia a una variable GLOBAL, por eso el <<-
 
      set.seed(ksemilla_azar)
 

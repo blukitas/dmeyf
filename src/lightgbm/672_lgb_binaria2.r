@@ -30,7 +30,7 @@ require("mlrMBO")
 switch ( Sys.info()[['sysname']],
          Windows = { directory.root  <-  "M:\\" },   #Windows
          Darwin  = { directory.root  <-  "~/dm/" },  #Apple MAC
-         Linux   = { directory.root  <-  "~/buckets/b1/" } #Google Cloud
+         Linux   = { directory.root  <-  "~/buckets/b1/crudoB/" } #Google Cloud
        )
 #defino la carpeta donde trabajo
 setwd( directory.root )
@@ -48,7 +48,7 @@ kBO_iter    <-  150   #cantidad de iteraciones de la Optimizacion Bayesiana
 hs <- makeParamSet( 
          makeNumericParam("learning_rate",    lower= 0.01 , upper=    0.1),
          makeNumericParam("feature_fraction", lower= 0.2  , upper=    1.0),
-         makeIntegerParam("min_data_in_leaf", lower= 0    , upper= 8000),
+         makeIntegerParam("min_data_in_leaf", lower= 200    , upper= 8000),
          makeIntegerParam("num_leaves",       lower=16L   , upper= 1024L),
          makeNumericParam("prob_corte",       lower= 0.020, upper=    0.055)
         )
