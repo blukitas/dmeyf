@@ -1,0 +1,284 @@
+
+# TP1
+
+## Arbol elemental con libreria  rpart
+
+Dependencias 
+
+```{r}
+require("data.table")
+require("rpart")
+
+# install.packages(c("Matrix", "Hmisc" , "rlist" , "yaml"))
+# install.packages(c("parallel", "primes" , "bit64" , "IRdisplay", "repr", "vioplot", "DT", "ROCR", "R.utils", "Rcpp", "devtools", "ggplot2", "gganimate", "transformr", "DiagrammeR", "data.table", "rpart", "rpart.plot", "treeClust", "ranger ", "randomForest", "xgboost", "lightgbm", "DiceKriging ", "mlrMBO"))
+# library( "IRkernel" )
+# IRkernel::installspec()
+```
+
+## Utils
+
+```{r}
+particionar  <- function( data,  division, agrupa="",  campo="fold", start=1, seed=NA )
+{
+  if( !is.na(seed) )   set.seed( seed )
+
+  bloque  <- unlist( mapply(  function(x,y) { rep( y, x )} ,   division,  seq( from=start, length.out=length(division) )  ) )  
+
+  data[ ,  (campo) :=  sample( rep( bloque, ceiling(.N/length(bloque))) )[1:.N],
+            by= agrupa ]
+}
+
+```
+
+
+La carpeta de la computadora local
+
+```{r}
+setwd("/home/lucas/Desktop/2021/Maestria/02.05.Data.Mining.E.y.F/TP/dmeyf/src/rpart/")  #Establezco el Working Directory
+
+seed <- 20
+# * 135221
+# * 355847
+# * 646577
+# * 772921
+# * 975257
+```
+
+
+# Cargo los datos de 202009 que es donde voy a ENTRENAR el modelo
+
+```{r}
+dtrain <- fread("./datasetsOri/paquete_premium_202009.csv")
+dataset <- fread("./datasetsOri/paquete_premium_202009.csv")
+premium_2019 <- fread("./datasetsOri/paquete_premium_202009.csv")
+```
+## Train - val
+
+```{r}
+# set.seed(20)
+# dt = sort(sample(nrow(premium_2019), nrow(premium_2019) * .8))
+particionar( dataset, division=c(70,30), agrupa="clase_ternaria", seed= 135221 )
+```
+
+
+```{r}
+premium_2019[dt,]
+```
+
+
+
+```{r}
+dtrain <- premium_2019[dt,]
+dtrain
+```
+
+```{r}
+dval <- premium_2019[-dt,]
+```
+
+## Metrica
+
+TODO: Hacer una métrica propia. Sumar por los positivos y restar por los negativos. (Está en lo que dieron 4800 para pegarle, -1250 TN y FP)
+
+Métrica propia pesando cada una de las clasificaciones
+
+* 1250
+* 4850
+
+```{r}
+metrica <- function(y, pred_y) {
+   df <- data.frame(y, pred_y)
+   df$cost <- 
+}
+```
+
+## Entrenar el modelo
+
+```{r}
+#genero el modelo
+# modelo  <- rpart("clase_ternaria ~ .",
+#                  data = dtrain,
+#                  xval=0,
+#                  cp=        -0.3, 
+#                  minsplit=  80,
+#                  minbucket=  1,
+#                  maxdepth=   8 ) # => 0.684
+# modelo  <- rpart("clase_ternaria ~ .",
+#                  data = dtrain,
+#                  # xval=10,
+#                  cp=        -1,
+#                  minsplit=  10,
+#                  minbucket=  2,
+#                  maxdepth=   5
+#                  ) # => 7.70755
+# modelo  <- rpart("clase_ternaria ~ .",
+#                  data = dtrain,
+#                  # xval=10,
+#                  cp=        -1,
+#                  minsplit=  2,
+#                  minbucket=  5,
+#                  maxdepth=   4
+#                  ) # => 6.96596 Gan => 3033750
+# modelo  <- rpart("clase_ternaria ~ .",
+#                  data = dtrain,
+#                  # xval=10,
+#                  cp=        -1,
+#                  minsplit=  2,
+#                  minbucket=  2,
+#                  maxdepth=   5
+#                  ) # => Gan => 3671250 => 7.70755
+# modelo  <- rpart("clase_ternaria ~ .",
+#                  data = dtrain,
+#                  # xval=10,
+#                  cp=        -1,
+#                  minsplit=  20,
+#                  minbucket=  10,
+#                  maxdepth=   5
+#                  ) # => Gan => 4013750 => 6.14938 => Overfit
+# modelo  <- rpart("clase_ternaria ~ .",
+#                  data = dtrain,
+#                  # xval=10,
+#                  cp=        -1,
+#                  minsplit=  2,
+#                  minbucket=  2,
+#                  maxdepth=   6
+#                  ) # => Gan => 4088750 => 7.52841
+# modelo  <- rpart("clase_ternaria ~ .",
+#                  data = dtrain,
+#                  # xval=10,
+#                  cp=        -1,
+#                  minsplit=  8,
+#                  minbucket=  0,
+#                  maxdepth=   6
+#                  ) # => Gan => 4128750 => 7.71172
+# modelo  <- rpart("clase_ternaria ~ .",
+#                  data = dtrain,
+#                  # xval=10,
+#                  cp=        -1,
+#                  minsplit=  20,
+#                  minbucket=  10,
+#                  maxdepth=   6
+#                  ) # => Gan => 4526250 => 6.07438 => Overfit
+# modelo  <- rpart("clase_ternaria ~ .",
+#                  data = dtrain,
+#                  # xval=10,
+#                  cp=        -1,
+#                  minsplit=  30,
+#                  minbucket=  15,
+#                  maxdepth=   6
+#                  ) # => Gan => 4285000 => 6.02856 => Overfit
+# modelo  <- rpart("clase_ternaria ~ .",
+#                  data = dtrain,
+#                  # xval=10,
+#                  cp=        -1,
+#                  minsplit=  2,
+#                  minbucket=  0,
+#                  maxdepth=   7
+
+#                  ) # => Gan => 3975000 => 6.72849 => Maso
+# modelo  <- rpart("clase_ternaria ~ .",
+#                  data = dtrain,
+#                  # xval=10,
+#                  cp=        0.001,
+#                  minsplit= 2,
+#                  minbucket=  3,
+#                  maxdepth=   8
+#                  ) # => Gan => 1058750  => 0.0 => Hiper overfitteado
+# modelo  <- rpart("clase_ternaria ~ .",
+#                  data = dtrain,
+#                  # xval=10,
+#                  cp=        0.001,
+#                  minsplit= 2,
+#                  minbucket=  5,
+#                  maxdepth=   11
+#                  ) # => Gan => 833750 => 0.0 => Hiper overfitteado
+# modelo  <- rpart("clase_ternaria ~ .",
+#                  data = dtrain,
+#                  # xval=10,
+#                  cp=        -0.1,
+#                  minsplit= 200,
+#                  minbucket=  3,
+#                  maxdepth=   11
+#                  ) # => Gan => 4403750 => 7.64089
+# modelo  <- rpart("clase_ternaria ~ .",
+#                  data = dtrain,
+#                  # xval=10,
+#                  cp=        -0.8,
+#                  minsplit= 120,
+#                  minbucket=  24,
+#                  maxdepth=   5
+#                  ) # => Gan => 4336250 => 6.05355
+modelo  <- rpart("clase_ternaria ~ .",
+                 data = dtrain,
+                 # xval=10,
+                 cp=        -0.8,
+                 minsplit= 2,
+                 minbucket=  5,
+                 maxdepth=   8
+                 ) # => Gan => 4170000 => 6.31186
+```
+
+```{r}
+summary(modelo)
+```
+
+
+```{r}
+#aplico al modelo  a los datos de 202011
+
+#cargo los datos de 202011, que es donde voy a APLICAR el modelo
+dapply  <- fread("./datasetsOri/paquete_premium_202011.csv")
+```
+
+```{r}
+prediccion  <- predict( modelo, dapply , type = "prob") #aplico el modelo
+prediccion[1:10]
+#prediccion es una matriz con TRES columnas, llamadas "BAJA+1", "BAJA+2"  y "CONTINUA"
+#cada columna es el vector de probabilidades 
+```
+
+```{r}
+dapply[ , prob_baja2 := prediccion[, "BAJA+2"] ]
+dapply[ , Predicted  := as.numeric(prob_baja2 > 0.025) ]
+```
+
+Continua
+```{r}
+table(dapply[ as.numeric(prob_baja2 > 0.025), 'prob_baja2'])
+```
+```{r}
+length(dapply[ as.numeric(prob_baja2 > 0.025), ]$prob_baja2)
+```
+
+
+Abandona
+```{r}
+table(dapply[ as.numeric(prob_baja2 < 0.025), 'prob_baja2'])
+```
+
+```{r}
+dapply
+table(dtrain$clase_ternaria)
+```
+
+
+```{r}
+entrega  <- dapply[   , list(numero_de_cliente, Predicted) ] #genero la salida
+```
+
+```{r}
+format(Sys.time(), "%Y%m%d_%H%M%S")
+```
+
+```{r}
+#genero el archivo para Kaggle
+
+fwrite(entrega,
+       file = paste(
+         "./kaggle/K101_001_",
+         format(Sys.time(), "%Y%m%d_%H%M%S"),
+         "_",
+         toString(length(dapply[as.numeric(prob_baja2 > 0.025),]$prob_baja2)),
+         ".csv"),
+         sep = ",")
+```
