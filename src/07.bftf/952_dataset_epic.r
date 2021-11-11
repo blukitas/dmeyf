@@ -36,23 +36,23 @@ palancas$lag1   <- TRUE    #lag de orden 1
 palancas$delta1 <- TRUE    # campo -  lag de orden 1 
 palancas$lag2   <- FALSE
 palancas$delta2 <- FALSE
-palancas$lag3   <- FALSE
-palancas$delta3 <- FALSE
+palancas$lag3   <- TRUE
+palancas$delta3 <- TRUE
 palancas$lag4   <- FALSE
 palancas$delta4 <- FALSE
 palancas$lag5   <- FALSE
 palancas$delta5 <- FALSE
-palancas$lag6   <- FALSE
-palancas$delta6 <- FALSE
+palancas$lag6   <- TRUE
+palancas$delta6 <- TRUE
 
-palancas$promedio3  <- FALSE  #promedio  de los ultimos 3 meses
-palancas$promedio6  <- FALSE
+palancas$promedio3  <- TRUE  #promedio  de los ultimos 3 meses
+palancas$promedio6  <- TRUE
 
-palancas$minimo3  <- FALSE  #minimo de los ultimos 3 meses
-palancas$minimo6  <- FALSE
+palancas$minimo3  <- TRUE  #minimo de los ultimos 3 meses
+palancas$minimo6  <- TRUE
 
-palancas$maximo3  <- FALSE  #maximo de los ultimos 3 meses
-palancas$maximo6  <- FALSE
+palancas$maximo3  <- TRUE  #maximo de los ultimos 3 meses
+palancas$maximo6  <- TRUE
 
 palancas$ratiomax3   <- FALSE   #La idea de Daiana Sparta
 palancas$ratiomean6  <- FALSE   #Un derivado de la idea de Daiana Sparta
