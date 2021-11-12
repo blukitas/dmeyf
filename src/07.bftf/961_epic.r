@@ -65,6 +65,7 @@ kgen_mes_desde    <- 201901
 
 kBO_iter    <-  100   #cantidad de iteraciones de la Optimizacion Bayesiana
 
+# TODO: Mas hiperapametros
 #Aqui se cargan los hiperparametros
 hs <- makeParamSet( 
          makeNumericParam("learning_rate",    lower=    0.02 , upper=    0.1),

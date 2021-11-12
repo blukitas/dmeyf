@@ -31,7 +31,10 @@ kgen_mes_desde   <- 201901  #desde donde voy a entrenar
 kgen_meses_malos <- 202006  #el mes que voy a eliminar del entreanamiento
 
 kgen_subsampling <- 1.0     #esto es NO hacer undersampling
+# TODO: Probar 0.1
+# kgen_subsampling <- 0.1     #esto es hacer undersampling de 10%
 
+# TODO: Campos para evitar por data drifting
 campos_malos  <- c()   #aqui se deben cargar todos los campos culpables del Data Drifting
 
 #------------------------------------------------------------------------------
@@ -133,7 +136,8 @@ tb_resultados  <- data.table( semilla= integer(),
                               meseta= integer(),
                               ganancia= numeric() )
 
-set.seed( 102191 )   #dejo fija esta semilla
+# set.seed( 102191 )   #dejo fija esta semilla
+set.seed( 135221 )   #dejo fija esta semilla
 CANTIDAD_SEMILLAS  <- 500
 
 #me genero un vector de semilla buscando numeros primos al azar
