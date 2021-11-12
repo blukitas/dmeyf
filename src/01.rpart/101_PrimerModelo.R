@@ -3,11 +3,14 @@ require("data.table")
 require("rpart")
 
 #Aqui se debe poner la carpeta de la computadora local
-setwd("/home/lucas/Desktop/2021/Maestria/02.05.Data.Mining.E.y.F/TP/dmeyf/src/rpart/")  #Establezco el Working Directory
+setwd("/home/lucas/Desktop/2021/Maestria/02.05.Data.Mining.E.y.F/Repo.TP/dmeyf/src/01.rpart/")  #Establezco el Working Directory
 
 seed <- 20
 #cargo los datos de 202009 que es donde voy a ENTRENAR el modelo
 dtrain <- fread("./datasetsOri/paquete_premium_202009.csv")
+
+# dtrain[1, "foto_mes"][1]
+# cat(paste0("Foto_mes_", dtrain[1, "foto_mes"][1]))
 
 #genero el modelo
 modelo  <- rpart("clase_ternaria ~ .",
