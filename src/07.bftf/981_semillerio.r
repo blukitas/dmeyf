@@ -156,6 +156,7 @@ ksemillas  <- c( 999983, ksemillas )
 
 for(  semillita  in  ksemillas )   #itero por las semillas
 {
+  cat(paste0("Semillita ", semillita))
   gc()
   param_completo$seed  <- semillita   #asigno la semilla a esta corrida
 
@@ -184,6 +185,7 @@ for(  semillita  in  ksemillas )   #itero por las semillas
 
   for( punto_meseta  in seq( 5000, 15000, by=500 ) )  #itero desde 5000 a 15000 , de a 500 
   {
+    cat(paste0("Punto meseta ", punto_meseta))
     ganancia  <-  tb_meseta[ 1:punto_meseta, sum(gan) ]   #calculo la ganancia de los mejores punto_meseta registros
 
     tb_resultados  <- rbind( tb_resultados, list( semillita, 
