@@ -1,3 +1,18 @@
+# Archivos de último visto
+
+- 951: es como el 812 (genera el dataset) pero en este caso pone null a las variables rotas. En la línea 63 se puede levantar la palanca canarito (la levanté pero todavía no exploré ni usé los resultados)
+- 961: es como el 823 pero hace un subsampling (muy recomendado)
+- 981: sirven para hacer el cambio de semillas que después permite hacer el test de wilcox
+
+Creo que no sirven:
+
+- 991/992: Usa private
+- 921: resultado del experimento
+- 931: test de wilcox
+
+Pregunta: Puedo tomar la referencia de estos últimos scripts para comparar los modelos
+
+
 # Observaciones
 
 Charlita sobre 951
