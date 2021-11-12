@@ -96,6 +96,7 @@ rm( "dataset" )   #libero memoria para el dataset
 gc()              #garbage collection
 
 
+# TODO: Hiperparametros para segunda BO
 #Estos son los parametros que estan fijos 
 param_basicos  <- list( objective= "binary",
                         metric= "custom",
@@ -133,8 +134,9 @@ tb_resultados  <- data.table( semilla= integer(),
                               meseta= integer(),
                               ganancia= numeric() )
 
-set.seed( 102191 )   #dejo fija esta semilla
-CANTIDAD_SEMILLAS  <- 500
+# set.seed( 102191 )   #dejo fija esta semilla
+set.seed( 135221 )   #dejo fija esta semilla
+CANTIDAD_SEMILLAS  <- 50
 
 #me genero un vector de semilla buscando numeros primos al azar
 primos  <- generate_primes(min=100000, max=1000000)  #genero TODOS los numeros primos entre 100k y 1M
