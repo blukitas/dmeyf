@@ -7,13 +7,19 @@
 rm( list=ls() )  #remove all objects
 gc()             #garbage collection
 
+cat("requires")
+
 require("data.table")
 require("rlist")
 require("yaml")
 
 require("lightgbm")
 
+install.packages("primes")
 require("primes")  #para generar semillas
+
+
+cat("setup variables")
 
 directory.root <- "~/buckets/b1/"
 setwd( directory.root )
@@ -39,6 +45,8 @@ campos_malos  <- c()   #aqui se deben cargar todos los campos culpables del Data
 
 get_experimento  <- function()
 {
+  cat("get experimento")
+  
   if( !file.exists( "./maestro.yaml" ) )  cat( file="./maestro.yaml", "experimento: 1000" )
 
   exp  <- read_yaml( "./maestro.yaml" )
@@ -59,6 +67,8 @@ if( is.na(kexperimento ) )   kexperimento <- get_experimento()  #creo el experim
 #en estos archivos quedan los resultados
 dir.create( paste0( "./work/E",  kexperimento, "/" ) )     #creo carpeta del experimento dentro de work
 
+
+cat(paste0("kexperimento ", kexperimento, " - kscript ", kscript))
 kresultados  <- paste0("./work/E",  kexperimento, "/E",  kexperimento, "_", kscript, ".txt" )  #archivo donde dejo el resultado
 
 
