@@ -7,7 +7,7 @@
 rm( list=ls() )  #remove all objects
 gc()             #garbage collection
 
-cat("requires")
+cat("requires \n")
 
 require("data.table")
 require("rlist")
@@ -19,7 +19,7 @@ install.packages("primes")
 require("primes")  #para generar semillas
 
 
-cat("setup variables")
+cat("setup variables \n")
 
 directory.root <- "~/buckets/b1/"
 setwd( directory.root )
@@ -36,7 +36,8 @@ kgen_mes_hasta   <- 202009  #hasta donde voy a entrenar
 kgen_mes_desde   <- 201901  #desde donde voy a entrenar
 kgen_meses_malos <- 202006  #el mes que voy a eliminar del entreanamiento
 
-kgen_subsampling <- 1.0     #esto es NO hacer undersampling
+# kgen_subsampling <- 1.0     #esto es NO hacer undersampling
+kgen_subsampling <- 0.1     #esto es NO hacer undersampling
 
 campos_malos  <- c()   #aqui se deben cargar todos los campos culpables del Data Drifting
 
@@ -45,7 +46,7 @@ campos_malos  <- c()   #aqui se deben cargar todos los campos culpables del Data
 
 get_experimento  <- function()
 {
-  cat("get experimento")
+  cat("get experimento \n")
   
   if( !file.exists( "./maestro.yaml" ) )  cat( file="./maestro.yaml", "experimento: 1000" )
 
@@ -146,7 +147,7 @@ tb_resultados  <- data.table( semilla= integer(),
 
 # set.seed( 102191 )   #dejo fija esta semilla
 set.seed( 135221 )   #dejo fija esta semilla
-CANTIDAD_SEMILLAS  <- 50
+CANTIDAD_SEMILLAS  <- 20
 
 #me genero un vector de semilla buscando numeros primos al azar
 primos  <- generate_primes(min=100000, max=1000000)  #genero TODOS los numeros primos entre 100k y 1M
@@ -156,7 +157,7 @@ ksemillas  <- c( 999983, ksemillas )
 
 for(  semillita  in  ksemillas )   #itero por las semillas
 {
-  cat(paste0("Semillita ", semillita))
+  cat(paste0("Semillita ", semillita, " \n"))
   gc()
   param_completo$seed  <- semillita   #asigno la semilla a esta corrida
 
@@ -185,7 +186,7 @@ for(  semillita  in  ksemillas )   #itero por las semillas
 
   for( punto_meseta  in seq( 5000, 15000, by=500 ) )  #itero desde 5000 a 15000 , de a 500 
   {
-    cat(paste0("Punto meseta ", punto_meseta))
+    cat(paste0("Punto meseta ", punto_meseta, " \n"))
     ganancia  <-  tb_meseta[ 1:punto_meseta, sum(gan) ]   #calculo la ganancia de los mejores punto_meseta registros
 
     tb_resultados  <- rbind( tb_resultados, list( semillita, 
