@@ -22,26 +22,26 @@ setwd( directory.root )
 
 palancas  <- list()  #variable con las palancas para activar/desactivar
 
-palancas$version  <- "v951"   #Muy importante, ir cambiando la version
+palancas$version  <- "v954"   #Muy importante, ir cambiando la version
 
 palancas$variablesdrift  <- c()   #aqui van las columnas que se quieren eliminar
 
 palancas$corregir <-  TRUE    # TRUE o FALSE
 
-palancas$nuevasvars <-  FALSE  #si quiero hacer Feature Engineering manual
+palancas$nuevasvars <-  TRUE  #si quiero hacer Feature Engineering manual
 
-palancas$dummiesNA  <-  FALSE #La idea de Santiago Dellachiesa
+palancas$dummiesNA  <-  TRUE #La idea de Santiago Dellachiesa
 
 palancas$lag1   <- TRUE    #lag de orden 1
 palancas$delta1 <- TRUE    # campo -  lag de orden 1 
-palancas$lag2   <- FALSE
-palancas$delta2 <- FALSE
+palancas$lag2   <- TRUE
+palancas$delta2 <- TRUE
 palancas$lag3   <- TRUE
 palancas$delta3 <- TRUE
-palancas$lag4   <- FALSE
-palancas$delta4 <- FALSE
-palancas$lag5   <- FALSE
-palancas$delta5 <- FALSE
+palancas$lag4   <- TRUE
+palancas$delta4 <- TRUE
+palancas$lag5   <- TRUE
+palancas$delta5 <- TRUE
 palancas$lag6   <- TRUE
 palancas$delta6 <- TRUE
 
@@ -54,13 +54,13 @@ palancas$minimo6  <- TRUE
 palancas$maximo3  <- TRUE  #maximo de los ultimos 3 meses
 palancas$maximo6  <- TRUE
 
-palancas$ratiomax3   <- FALSE   #La idea de Daiana Sparta
-palancas$ratiomean6  <- FALSE   #Un derivado de la idea de Daiana Sparta
+palancas$ratiomax3   <- TRUE   #La idea de Daiana Sparta
+palancas$ratiomean6  <- TRUE   #Un derivado de la idea de Daiana Sparta
 
-palancas$tendencia6  <- FALSE    #Great power comes with great responsability
+palancas$tendencia6  <- TRUE    #Great power comes with great responsability
 
 
-palancas$canaritosimportancia  <- FALSE  #si me quedo solo con lo mas importante de canaritosimportancia
+palancas$canaritosimportancia  <- TRUE  #si me quedo solo con lo mas importante de canaritosimportancia
 
 
 #escribo para saber cuales fueron los parametros
