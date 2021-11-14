@@ -43,9 +43,9 @@ setwd( directory.root )
 
 kexperimento  <- NA   #NA si se corre la primera vez, un valor concreto si es para continuar procesando
 
-kscript         <- "961_epic"
+kscript         <- "964_epic"
 
-karch_dataset    <- "./datasets/dataset_epic_v951.csv.gz"
+karch_dataset    <- "./datasets/dataset_epic_v954.csv.gz"
 
 kapply_mes       <- c(202101)  #El mes donde debo aplicar el modelo
 
