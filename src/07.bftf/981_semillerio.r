@@ -26,8 +26,8 @@ setwd( directory.root )
 
 kexperimento  <- NA
 
-kscript         <- "981_epic"
-karch_dataset   <- "./datasets/dataset_epic_v951.csv.gz"  #el dataset que voy a utilizar
+kscript         <- "984_epic"
+karch_dataset   <- "./datasets/dataset_epic_v954.csv.gz"  #el dataset que voy a utilizar
 
 ktest_mes_hasta  <- 202011  #Esto es lo que uso para testing
 ktest_mes_desde  <- 202011
