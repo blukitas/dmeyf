@@ -7,13 +7,19 @@
 rm( list=ls() )  #remove all objects
 gc()             #garbage collection
 
+cat("requires \n")
+
 require("data.table")
 require("rlist")
 require("yaml")
 
 require("lightgbm")
 
+install.packages("primes")
 require("primes")  #para generar semillas
+
+
+cat("setup variables \n")
 
 directory.root <- "~/buckets/b1/"
 setwd( directory.root )
@@ -30,9 +36,9 @@ kgen_mes_hasta   <- 202009  #hasta donde voy a entrenar
 kgen_mes_desde   <- 201901  #desde donde voy a entrenar
 kgen_meses_malos <- 202006  #el mes que voy a eliminar del entreanamiento
 
-kgen_subsampling <- 1.0     #esto es NO hacer undersampling
+# kgen_subsampling <- 1.0     #esto es NO hacer undersampling
 # TODO: Probar 0.1
-# kgen_subsampling <- 0.1     #esto es hacer undersampling de 10%
+kgen_subsampling <- 0.1     #esto es NO hacer undersampling
 
 # TODO: Campos para evitar por data drifting
 campos_malos  <- c()   #aqui se deben cargar todos los campos culpables del Data Drifting
@@ -42,6 +48,8 @@ campos_malos  <- c()   #aqui se deben cargar todos los campos culpables del Data
 
 get_experimento  <- function()
 {
+  cat("get experimento \n")
+  
   if( !file.exists( "./maestro.yaml" ) )  cat( file="./maestro.yaml", "experimento: 1000" )
 
   exp  <- read_yaml( "./maestro.yaml" )
@@ -62,6 +70,8 @@ if( is.na(kexperimento ) )   kexperimento <- get_experimento()  #creo el experim
 #en estos archivos quedan los resultados
 dir.create( paste0( "./work/E",  kexperimento, "/" ) )     #creo carpeta del experimento dentro de work
 
+
+cat(paste0("kexperimento ", kexperimento, " - kscript ", kscript))
 kresultados  <- paste0("./work/E",  kexperimento, "/E",  kexperimento, "_", kscript, ".txt" )  #archivo donde dejo el resultado
 
 
@@ -99,6 +109,7 @@ rm( "dataset" )   #libero memoria para el dataset
 gc()              #garbage collection
 
 
+# TODO: Hiperparametros para segunda BO
 #Estos son los parametros que estan fijos 
 param_basicos  <- list( objective= "binary",
                         metric= "custom",
@@ -138,7 +149,8 @@ tb_resultados  <- data.table( semilla= integer(),
 
 # set.seed( 102191 )   #dejo fija esta semilla
 set.seed( 135221 )   #dejo fija esta semilla
-CANTIDAD_SEMILLAS  <- 500
+#CANTIDAD_SEMILLAS  <- 500
+CANTIDAD_SEMILLAS  <- 20
 
 #me genero un vector de semilla buscando numeros primos al azar
 primos  <- generate_primes(min=100000, max=1000000)  #genero TODOS los numeros primos entre 100k y 1M
@@ -148,6 +160,7 @@ ksemillas  <- c( 999983, ksemillas )
 
 for(  semillita  in  ksemillas )   #itero por las semillas
 {
+  cat(paste0("Semillita ", semillita, " \n"))
   gc()
   param_completo$seed  <- semillita   #asigno la semilla a esta corrida
 
@@ -176,6 +189,7 @@ for(  semillita  in  ksemillas )   #itero por las semillas
 
   for( punto_meseta  in seq( 5000, 15000, by=500 ) )  #itero desde 5000 a 15000 , de a 500 
   {
+    cat(paste0("Punto meseta ", punto_meseta, " \n"))
     ganancia  <-  tb_meseta[ 1:punto_meseta, sum(gan) ]   #calculo la ganancia de los mejores punto_meseta registros
 
     tb_resultados  <- rbind( tb_resultados, list( semillita, 

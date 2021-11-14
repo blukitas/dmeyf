@@ -125,7 +125,7 @@ param_basicos  <- list( objective= "binary",
                        )
 
 
-#Estos hiperparametros salieron de la optimizacion bayesiana del script 962
+#Estos hiperparametros salieron de la optimizacion bayesiana del script 963
 #ganancia  7706250  ( sobre la mitad de 202011 )
 #hiperparametros encontrados en la iteracion bayesiana 41 de un total de 100 inteligentes
 param_ganadores  <- list( "learning_rate"= 0.069741993886940, 
