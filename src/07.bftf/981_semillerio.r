@@ -128,12 +128,12 @@ param_basicos  <- list( objective= "binary",
 #Estos hiperparametros salieron de la optimizacion bayesiana del script 961
 #ganancia  6991250  ( sobre la mitad de 202011 )
 #hiperparametros encontrados en la iteracion bayesiana 56 de un total de 100 inteligentes
-param_ganadores  <- list( "learning_rate"= 0.09, 
-                          "feature_fraction"= 0.6,
-                          "min_data_in_leaf"= 2050,
-                          "num_leaves"= 231,
-                          "num_iterations"= 155,
-                          "ratio_corte"= 0.04
+param_ganadores  <- list( "learning_rate"= 0.069741993886940, 
+                          "feature_fraction"= 0.427681592786498,
+                          "min_data_in_leaf"= 466,
+                          "num_leaves"= 679,
+                          "num_iterations"= 171,
+                          "ratio_corte"= 0.0344748227929670
                         )
 
 #junto ambas listas de parametros en una sola
