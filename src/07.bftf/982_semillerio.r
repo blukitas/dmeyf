@@ -26,8 +26,8 @@ setwd( directory.root )
 
 kexperimento  <- NA
 
-kscript         <- "982_epic"
-karch_dataset   <- "./datasets/dataset_epic_v952.csv.gz"  #el dataset que voy a utilizar
+kscript         <- "985_epic"
+karch_dataset   <- "./datasets/dataset_epic_v955.csv.gz"  #el dataset que voy a utilizar
 
 ktest_mes_hasta  <- 202011  #Esto es lo que uso para testing
 ktest_mes_desde  <- 202011
@@ -125,15 +125,15 @@ param_basicos  <- list( objective= "binary",
                        )
 
 
-#Estos hiperparametros salieron de la optimizacion bayesiana del script 962
+#Estos hiperparametros salieron de la optimizacion bayesiana del script 965
 #ganancia  7706250  ( sobre la mitad de 202011 )
 #hiperparametros encontrados en la iteracion bayesiana 41 de un total de 100 inteligentes
-param_ganadores  <- list( "learning_rate"= 0.0289933062436432, 
-                          "feature_fraction"= 0.914142998647527,
-                          "min_data_in_leaf"= 367,
-                          "num_leaves"= 455,
-                          "num_iterations"= 461,
-                          "ratio_corte"= 0.0465659156440689
+param_ganadores  <- list( "learning_rate"= 0.054973453984279, 
+                          "feature_fraction"= 0.400730396701023,
+                          "min_data_in_leaf"= 3254,
+                          "num_leaves"= 690,
+                          "num_iterations"= 389,
+                          "ratio_corte"= 0.0391445524005590
                         )
 
 #junto ambas listas de parametros en una sola
