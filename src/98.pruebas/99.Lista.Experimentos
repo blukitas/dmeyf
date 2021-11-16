@@ -14,3 +14,17 @@ También está en drive una lista de experimentos: https://docs.google.com/sprea
 * E5009 -> 982
 * E5010 -> 983
 * E5011 -> 954
+* E5012 -> 984
+* E5013 -> 955
+* E5014 -> 985
+* E5015 -> 956
+    * No genero modelo
+
+
+En los 98X -> Genero la misma corrida con muchas semillas (10 suele se suficiente para ver si dos distribuciones tienen diferencias significativas). 
+
+Uso el script wilcox. Comparo dos salidas de los Experimentos (Por ejemplo E5008 y E5009). 
+
+Significativo si p-value < 0.05. 
+Mayor a 0.05 significa que no hay evidencia para mejorar. (Forma de comprobarlo. Comparar contra si mismo).
+
