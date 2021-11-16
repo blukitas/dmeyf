@@ -24,7 +24,7 @@ setwd( directory.root )
 seed <- 135221
 palancas  <- list()  #variable con las palancas para activar/desactivar
 
-palancas$version  <- "v956"   #Muy importante, ir cambiando la version
+palancas$version  <- "v957"   #Muy importante, ir cambiando la version
 
 palancas$variablesdrift  <- c()   #aqui van las columnas que se quieren eliminar
 
@@ -63,7 +63,7 @@ palancas$ratiomean6  <- FALSE   #Un derivado de la idea de Daiana Sparta
 palancas$tendencia6  <- TRUE    #Great power comes with great responsability
 
 
-palancas$canaritosimportancia  <- TRUE  #si me quedo solo con lo mas importante de canaritosimportancia
+palancas$canaritosimportancia  <- FALSE  #si me quedo solo con lo mas importante de canaritosimportancia
 
 
 #escribo para saber cuales fueron los parametros
