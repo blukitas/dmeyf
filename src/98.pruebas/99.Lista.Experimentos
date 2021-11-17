@@ -21,6 +21,8 @@ También está en drive una lista de experimentos: https://docs.google.com/sprea
     * No genero modelo
 * E5016 -> 957
 * E5017 -> 987_61
+* E5018 -> 1310
+* E5019 -> 987_80 (Deberia ser)
 
 En los 98X -> Genero la misma corrida con muchas semillas (10 suele se suficiente para ver si dos distribuciones tienen diferencias significativas). 
 
