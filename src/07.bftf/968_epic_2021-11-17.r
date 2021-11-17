@@ -78,7 +78,7 @@ hs <- makeParamSet(
          makeNumericParam("bagging_fraction", lower=    0.1  , upper=    1.0),
          makeIntegerParam("bagging_freq",     lower=    3L   , upper= 100L),
          makeNumericParam("min_gain_to_split",lower=    0.0  , upper= 15.0),
-         makeIntegerParam("min_data_in_bin",  lower=   20L   , upper= 8000L),
+        #  makeIntegerParam("min_data_in_bin",  lower=   20L   , upper= 8000L),
          makeIntegerParam("min_data_in_leaf", lower=   20L   , upper= 8000L),
          makeIntegerParam("num_leaves",       lower=  100L   , upper= 1024L),
          makeIntegerParam("max_bin",          lower=    3L   , upper= 100L),
