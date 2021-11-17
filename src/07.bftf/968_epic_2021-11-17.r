@@ -83,8 +83,7 @@ hs <- makeParamSet(
          makeIntegerParam("num_leaves",       lower=  100L   , upper= 1024L),
          makeIntegerParam("max_bin",          lower=    3L   , upper= 100L),
          makeNumericParam("lambda_l1",        lower=    0.0  , upper= 100.0),
-         makeNumericParam("lambda_l2",        lower=    0.0  , upper= 100.0),
-         
+         makeNumericParam("lambda_l2",        lower=    0.0  , upper= 100.0)         
         )
 
 campos_malos  <- c()   #aqui se deben cargar todos los campos culpables del Data Drifting
