@@ -11,7 +11,8 @@ require("data.table")
 
 
 #Establezco el Working Directory
-setwd( "~/buckets/b1/crudoB" )
+# setwd( "~/buckets/b1/crudoB" )
+setwd("/home/lucas/Desktop/2021/Maestria/02.05.Data.Mining.E.y.F/Repo.TP/dmeyf/src/01.rpart/")  #Establezco el Working Directory
 
 
 EnriquecerDataset <- function( dataset , arch_destino )
@@ -111,14 +112,150 @@ EnriquecerDataset <- function( dataset , arch_destino )
 }
 #------------------------------------------------------------------------------
 
+DeflacionarDataset <- function( dataset, inflacion , arch_destino )
+{
+  columnas_originales <-  copy(colnames( dataset ))
+  
+  sufijodeflactado = "_deflactada"
+  cols = c("mrentabilidad" , 
+           "mrentabilidad_annual" , 
+           "mcomisiones" , 
+           "mactivos_margen" , 
+           "mpasivos_margen" , 
+           "mcuenta_corriente_adicional" , 
+           "mcuenta_corriente" , 
+           "mcaja_ahorro" , 
+           "mcaja_ahorro_adicional" , 
+           "mcaja_ahorro_dolares" , 
+           "mdescubierto_preacordado" , 
+           "mcuentas_saldo" , 
+           "mautoservicio" , 
+           "mtarjeta_visa_consumo" , 
+           "mtarjeta_master_consumo" , 
+           "mprestamos_personales" , 
+           "mprestamos_prendarios" , 
+           "mprestamos_hipotecarios" , 
+           "mplazo_fijo_dolares" , 
+           "mplazo_fijo_pesos" , 
+           "minversion1_pesos" , 
+           "minversion1_dolares" , 
+           "minversion2" , 
+           "mpayroll" , 
+           "mpayroll2" , 
+           "mcuenta_debitos_automaticos" , 
+           "mttarjeta_visa_debitos_automaticos" , 
+           "mttarjeta_master_debitos_automaticos" , 
+           "mpagodeservicios" , 
+           "mpagomiscuentas" , 
+           "mcajeros_propios_descuentos" , 
+           "mtarjeta_visa_descuentos" , 
+           "mtarjeta_master_descuentos" , 
+           "mcomisiones_mantenimiento" , 
+           "mcomisiones_otras" , 
+           "mforex_buy" , 
+           "mforex_sell" , 
+           "mtransferencias_recibidas" , 
+           "mtransferencias_emitidas" , 
+           "mextraccion_autoservicio" , 
+           "mcheques_depositados" , 
+           "mcheques_emitidos" , 
+           "mcheques_depositados_rechazados" , 
+           "mcheques_emitidos_rechazados" , 
+           "matm" , 
+           "matm_other" , 
+           "Master_mfinanciacion_limite" , 
+           "Master_msaldototal" , 
+           "Master_msaldopesos" , 
+           "Master_msaldodolares" , 
+           "Master_mconsumospesos" , 
+           "Master_mconsumosdolares" , 
+           "Master_mlimitecompra" , 
+           "Master_madelantopesos" , 
+           "Master_madelantodolares" , 
+           "Master_mpagado" , 
+           "Master_mpagospesos" , 
+           "Master_mpagosdolares" , 
+           "Master_mconsumototal" , 
+           "Master_mpagominimo" , 
+           "Visa_mfinanciacion_limite"  , 
+           "Visa_msaldototal" , 
+           "Visa_msaldopesos" , 
+           "Visa_msaldodolares" , 
+           "Visa_mconsumospesos" , 
+           "Visa_mconsumosdolares"  , 
+           "Visa_mlimitecompra" , 
+           "Visa_madelantopesos" , 
+           "Visa_madelantodolares" , 
+           "Visa_mpagado"  , 
+           "Visa_mpagospesos" , 
+           "Visa_mpagosdolares" , 
+           "Visa_mconsumototal" , 
+           "Visa_mpagominimo"  
+    )
+  
+  # dataset = dataset_or[,c("numero_de_cliente","foto_mes",cols), with =FALSE]
+  
+  #agrego la inflacion acumulada
+  dataset[inflacion, on = 'foto_mes', inflacion_acumulada := variacion_acumulada]
+  
+  for(vcol in cols)
+  {
+    dataset[, paste0(vcol, sufijodeflactado) := round(get(vcol)/(1+inflacion_acumulada),6)]
+  }
+  
+  dataset[, inflacion_acumulada := NULL]
+  
+  #grabo con nombre extendido
+  fwrite( dataset,
+          file=arch_destino,
+          sep= "," )
+}
+DeflacionarDataset(dataset1, inflacion, "./datasets/paquete_premium_202009_def.csv")
+#------------------------------------------------------------------------------
+
+DolarizarDataset <- function( dataset, arch_destino )
+{
+  cat("Dolariza dataset")
+  
+  inflacion <- fread("/home/lucas/Desktop/2021/Maestria/02.05.Data.Mining.E.y.F/Repo.TP/dmeyf/src/05.FeatureEngineering/20211116-precio-dolar.csv")
+  
+  columnas_originales <-  copy(colnames( dataset ))
+  
+  sufijodolarizado = "_dolariza"
+  cols = c("mrentabilidad", "mrentabilidad_annual", "mcomisiones", "mactivos_margen", "mpasivos_margen", "mcuenta_corriente_adicional", "mcuenta_corriente", "mcaja_ahorro", "mcaja_ahorro_adicional", "mcaja_ahorro_dolares", "mdescubierto_preacordado", "mcuentas_saldo", "mautoservicio", "mtarjeta_visa_consumo", "mtarjeta_master_consumo", "mprestamos_personales", "mprestamos_prendarios", "mprestamos_hipotecarios",  "mplazo_fijo_dolares",  "mplazo_fijo_pesos",  "minversion1_pesos",  "minversion1_dolares",  "minversion2",  "mpayroll",  "mpayroll2",  "mcuenta_debitos_automaticos",  "mttarjeta_visa_debitos_automaticos",  "mttarjeta_master_debitos_automaticos",  "mpagodeservicios",  "mpagomiscuentas",  "mcajeros_propios_descuentos",  "mtarjeta_visa_descuentos",  "mtarjeta_master_descuentos",  "mcomisiones_mantenimiento",  "mcomisiones_otras",  "mforex_buy",  "mforex_sell",  "mtransferencias_recibidas",  "mtransferencias_emitidas",  "mextraccion_autoservicio",  "mcheques_depositados",  "mcheques_emitidos",  "mcheques_depositados_rechazados",  "mcheques_emitidos_rechazados",  "matm",  "matm_other",  "Master_mfinanciacion_limite",  "Master_msaldototal",  "Master_msaldopesos",  "Master_msaldodolares",  "Master_mconsumospesos",  "Master_mconsumosdolares",  "Master_mlimitecompra",  "Master_madelantopesos",  "Master_madelantodolares",  "Master_mpagado",  "Master_mpagospesos",  "Master_mpagosdolares",  "Master_mconsumototal",  "Master_mpagominimo",  "Visa_mfinanciacion_limite" ,  "Visa_msaldototal",  "Visa_msaldopesos",  "Visa_msaldodolares",  "Visa_mconsumospesos",  "Visa_mconsumosdolares" ,  "Visa_mlimitecompra",  "Visa_madelantopesos",  "Visa_madelantodolares",  "Visa_mpagado" ,  "Visa_mpagospesos",  "Visa_mpagosdolares",  "Visa_mconsumototal",  "Visa_mpagominimo"  )
+  
+  # dataset = dataset_or[,c("numero_de_cliente","foto_mes",cols), with =FALSE]
+  
+  #agrego la inflacion acumulada
+  dataset[inflacion, on = 'foto_mes', dolar := valor]
+  
+  for(vcol in cols)
+  {
+    dataset[, paste0(vcol, sufijodolarizado) := round(get(vcol)/dolar,6)]
+  }
+  
+  dataset[, dolar := NULL]
+  
+  #grabo con nombre extendido
+  fwrite( dataset,
+          file=arch_destino,
+          sep= "," )
+}
+DolarizarDataset(dataset1, "./datasets/paquete_premium_202009_dol.csv")
+#------------------------------------------------------------------------------
 dir.create( "./datasets/" )
 
 
 #lectura rapida del dataset  usando fread  de la libreria  data.table
 dataset1  <- fread("./datasetsOri/paquete_premium_202009.csv")
 dataset2  <- fread("./datasetsOri/paquete_premium_202011.csv")
+inflacion <- fread("./datasetsOri/20211116-indice-inflacion.csv")
 
-EnriquecerDataset( dataset1, "./datasets/paquete_premium_202009_ext.csv" )
-EnriquecerDataset( dataset2, "./datasets/paquete_premium_202011_ext.csv" )
+
+
+EnriquecerDataset( dataset1, "./datasets/paquete_premium_202009_def.csv" )
+EnriquecerDataset( dataset2, "./datasets/paquete_premium_202011_def.csv" )
+
+
 
 quit( save="no")
