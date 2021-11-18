@@ -14,11 +14,11 @@ corrida <- list()
 corrida$arch_testing1  <- "./work/E5009/E5009_982_epic.txt"
 # corrida$arch_testing1  <- "./work/E5010/E5010_983_epic.txt"
 # corrida$arch_testing2  <- "./work/E5012/E5012_984_epic.txt"
-corrida$arch_testing2  <- "./work/E5014/E5014_985_epic.txt"
+corrida$arch_testing2  <- "./work/E5018/E5018_987_80_epic.txt"
 
 # corrida$arch_kaggle1  <- "./work/E5016_991_epic.txt"
 # corrida$arch_kaggle2  <- "./work/E5018_992_epic.txt"
-corrida$arch_salida   <- "./work/901_981vs982.pdf"
+corrida$arch_salida   <- "./work/901_982vs988.pdf"
 
 #leo los datasets
 resultados_testing1  <- fread( corrida$arch_testing1 )
