@@ -22,7 +22,11 @@ También está en drive una lista de experimentos: https://docs.google.com/sprea
 * E5016 -> 957
 * E5017 -> 987_61
 * E5018 -> 1310
-* E5019 -> 987_80 (Deberia ser)
+* E5019 -> 987_80 
+* E5020 -> 988 (Fallido)
+* E5021 -> 988 
+    * TODO: semillas
+* E5021 -> 1051 (En curso)
 
 En los 98X -> Genero la misma corrida con muchas semillas (10 suele se suficiente para ver si dos distribuciones tienen diferencias significativas). 
 
