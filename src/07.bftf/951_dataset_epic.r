@@ -59,6 +59,7 @@ palancas$ratiomean6  <- TRUE   #Un derivado de la idea de Daiana Sparta
 
 palancas$tendencia6  <- TRUE    #Great power comes with great responsability
 
+palancas$antonio  <- TRUE   # el valor de la variable sobre el promedio de ese mes
 
 palancas$canaritosimportancia  <- TRUE  #si me quedo solo con lo mas importante de canaritosimportancia
 
@@ -499,6 +500,22 @@ Tendencia  <- function( dataset, cols )
 
 }
 #------------------------------------------------------------------------------
+#Esta palanca fue solicitada por  Antonio Velazquez Bustamente
+#agregar una palanca al script 951 que genere el valor de la variable/(el promedio de la misma de todos los clientes para el mes en cuestión)
+
+Antonio  <- function( cols )
+{
+
+  sufijo  <- paste0( "_tony")
+
+  dataset[ , paste0( cols, sufijo) := lapply( .SD,  function(x){ x/mean(x, na.rm=TRUE)} ), 
+             by= foto_mes, 
+             .SDcols= cols]
+
+  ReportarCampos( dataset )
+}
+#------------------------------------------------------------------------------
+
 VPOS_CORTE  <- c()
 
 fganancia_lgbm_meseta  <- function(probs, datos) 
@@ -593,70 +610,63 @@ CanaritosImportancia  <- function( dataset )
   ReportarCampos( dataset )
 }
 #------------------------------------------------------------------------------
-
-correr_todo  <- function( palancas )
-{
-  #cargo el dataset ORIGINAL
-  dataset  <- fread( "./datasetsOri/paquete_premium.csv.gz")
-
-  setorder(  dataset, numero_de_cliente, foto_mes )  #ordeno el dataset
-
-  AgregarMes( dataset )  #agrego el mes del año
-
-  if( length(palancas$variablesdrift) > 0 )   DriftEliminar( dataset, palancas$variablesdrift )
-
-  if( palancas$dummiesNA )  DummiesNA( dataset )  #esta linea debe ir ANTES de Corregir  !!
-
-  if( palancas$corregir )  Corregir( dataset )  #esta linea debe ir DESPUES de  DummiesNA
-
-  if( palancas$nuevasvars )  AgregarVariables( dataset )
-
-  cols_analiticas  <- setdiff( colnames(dataset),  c("numero_de_cliente","foto_mes","mes","clase_ternaria") )
-
-  if( palancas$lag1 )   Lags( dataset, cols_analiticas, 1, palancas$delta1 )
-  if( palancas$lag2 )   Lags( dataset, cols_analiticas, 2, palancas$delta2 )
-  if( palancas$lag3 )   Lags( dataset, cols_analiticas, 3, palancas$delta3 )
-  if( palancas$lag4 )   Lags( dataset, cols_analiticas, 4, palancas$delta4 )
-  if( palancas$lag5 )   Lags( dataset, cols_analiticas, 5, palancas$delta5 )
-  if( palancas$lag6 )   Lags( dataset, cols_analiticas, 6, palancas$delta6 )
-
-  if( palancas$promedio3 )  Promedios( dataset, cols_analiticas, 3 )
-  if( palancas$promedio6 )  Promedios( dataset, cols_analiticas, 6 )
-
-  if( palancas$minimo3 )  Minimos( dataset, cols_analiticas, 3 )
-  if( palancas$minimo6 )  Minimos( dataset, cols_analiticas, 6 )
-
-  if( palancas$maximo3 )  Maximos( dataset, cols_analiticas, 3 )
-  if( palancas$maximo6 )  Maximos( dataset, cols_analiticas, 6 )
-
-  if(palancas$ratiomax3)  RatioMax(  dataset, cols_analiticas, 3) #La idea de Daiana Sparta
-  if(palancas$ratiomean6) RatioMean( dataset, cols_analiticas, 6) #Derivado de la idea de Daiana Sparta
-
-
-  if( palancas$tendencia6 )  Tendencia( dataset, cols_analiticas)
-
-
-  if( palancas$canaritosimportancia )  CanaritosImportancia( dataset )
-
-
-
-  #dejo la clase como ultimo campo
-  nuevo_orden  <- c( setdiff( colnames( dataset ) , "clase_ternaria" ) , "clase_ternaria" )
-  setcolorder( dataset, nuevo_orden )
-
-  #Grabo el dataset
-  fwrite( dataset,
-          paste0( "./datasets/dataset_epic_", palancas$version, ".csv.gz" ),
-          logical01 = TRUE,
-          sep= "," )
-
-}
-#------------------------------------------------------------------------------
-
 #Aqui empieza el programa
 
+#cargo el dataset ORIGINAL
+dataset  <- fread( "./datasetsOri/paquete_premium.csv.gz")
 
-correr_todo( palancas )
+setorder(  dataset, numero_de_cliente, foto_mes )  #ordeno el dataset
+
+AgregarMes( dataset )  #agrego el mes del año
+
+if( length(palancas$variablesdrift) > 0 )   DriftEliminar( dataset, palancas$variablesdrift )
+
+if( palancas$dummiesNA )  DummiesNA( dataset )  #esta linea debe ir ANTES de Corregir  !!
+
+if( palancas$corregir )  Corregir( dataset )  #esta linea debe ir DESPUES de  DummiesNA
+
+if( palancas$nuevasvars )  AgregarVariables( dataset )
+
+cols_analiticas  <- setdiff( colnames(dataset),  c("numero_de_cliente","foto_mes","mes","clase_ternaria") )
+
+if( palancas$lag1 )   Lags( dataset, cols_analiticas, 1, palancas$delta1 )
+if( palancas$lag2 )   Lags( dataset, cols_analiticas, 2, palancas$delta2 )
+if( palancas$lag3 )   Lags( dataset, cols_analiticas, 3, palancas$delta3 )
+if( palancas$lag4 )   Lags( dataset, cols_analiticas, 4, palancas$delta4 )
+if( palancas$lag5 )   Lags( dataset, cols_analiticas, 5, palancas$delta5 )
+if( palancas$lag6 )   Lags( dataset, cols_analiticas, 6, palancas$delta6 )
+
+if( palancas$promedio3 )  Promedios( dataset, cols_analiticas, 3 )
+if( palancas$promedio6 )  Promedios( dataset, cols_analiticas, 6 )
+
+if( palancas$minimo3 )  Minimos( dataset, cols_analiticas, 3 )
+if( palancas$minimo6 )  Minimos( dataset, cols_analiticas, 6 )
+
+if( palancas$maximo3 )  Maximos( dataset, cols_analiticas, 3 )
+if( palancas$maximo6 )  Maximos( dataset, cols_analiticas, 6 )
+
+if(palancas$ratiomax3)  RatioMax(  dataset, cols_analiticas, 3) #La idea de Daiana Sparta
+if(palancas$ratiomean6) RatioMean( dataset, cols_analiticas, 6) #Derivado de la idea de Daiana Sparta
+
+
+if( palancas$tendencia6 )  Tendencia( dataset, cols_analiticas)
+
+if( palancas$antonio )  Antonio( cols_analiticas)
+
+if( palancas$canaritosimportancia )  CanaritosImportancia( dataset )
+
+
+
+#dejo la clase como ultimo campo
+nuevo_orden  <- c( setdiff( colnames( dataset ) , "clase_ternaria" ) , "clase_ternaria" )
+setcolorder( dataset, nuevo_orden )
+
+#Grabo el dataset
+fwrite( dataset,
+        paste0( "./datasets/dataset_epic_", palancas$version, ".csv.gz" ),
+        logical01 = TRUE,
+        sep= "," )
+
 
 
 quit( save="no" )
