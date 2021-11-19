@@ -30,7 +30,8 @@ require("data.table")
 require("rlist")
 require("yaml")
 
-require("primes")
+install.packages("primes")
+require("primes")  #para generar semillas
 require("lightgbm")
 
 #paquetes necesarios para la Bayesian Optimization
