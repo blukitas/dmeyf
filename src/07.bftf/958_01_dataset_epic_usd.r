@@ -536,7 +536,7 @@ DolarizarDataset <- function( dataset )
 {
   cat("Dolariza dataset")
 
-  inflacion <- fread("./datasetsOri/20211116-precio_dolar.csv")
+  inflacion <- fread("./datasetsOri/20211116-precio-dolar.csv")
 
   columnas_originales <-  copy(colnames( dataset ))
   
