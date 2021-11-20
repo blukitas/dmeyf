@@ -50,7 +50,7 @@ switch ( Sys.info()[['sysname']],
 setwd( directory.root )
 
 
-kexperimento  <- NA #NA si se corre la primera vez, un valor concreto si es para continuar procesando
+kexperimento  <- 5032 #NA si se corre la primera vez, un valor concreto si es para continuar procesando
 
 kscript       <- "1420_lgbm"
 
