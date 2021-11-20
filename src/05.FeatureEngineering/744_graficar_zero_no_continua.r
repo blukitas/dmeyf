@@ -22,6 +22,7 @@ setorder( dataset,  foto_mes )
 campos_buenos  <-  setdiff(  colnames( dataset),  c("numero_de_cliente","foto_mes","clase_ternaria" ) )
 
 
+cat("./work/no_continua_zeroes_ratio.pdf")
 pdf("./work/no_continua_zeroes_ratio.pdf")
 for( campo in  campos_buenos )
 {
@@ -53,6 +54,7 @@ dev.off()
 
 
 
+cat("./work/no_continua_nas_ratio.pdf")
 pdf("./work/no_continua_nas_ratio.pdf")
 for( campo in  campos_buenos )
 {
@@ -84,6 +86,7 @@ dev.off()
 
 
 
+cat("./work/no_continua_promedios.pdf")
 pdf("./work/no_continua_promedios.pdf")
 for( campo in  campos_buenos )
 {
@@ -116,6 +119,7 @@ dev.off()
 
 
 
+cat("./work/no_continua_promedios_nocero.pdf")
 pdf("./work/no_continua_promedios_nocero.pdf")
 for( campo in  campos_buenos )
 {
