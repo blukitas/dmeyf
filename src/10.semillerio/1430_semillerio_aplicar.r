@@ -20,11 +20,11 @@ kcantidad_semillas  <- 200
 # TODO: Estos valores hay que sacarlos mejores valores del bolog, y meterlos a mano
 # TODO: Porque no hay mas hiperparametros?
 x  <- list()
-x$gleaf_size   <-  
-x$gnum_leaves  <-  
-x$learning_rate <-  
-x$feature_fraction <-  
-x$num_iterations  <- 
+x$gleaf_size   <-  62.830692617993400
+x$gnum_leaves  <-  0.1377982598
+x$learning_rate <-  0.030734037878163
+x$feature_fraction <-  0.569801960036735
+x$num_iterations  <- 749
 
 #------------------------------------------------------------------------------
 
