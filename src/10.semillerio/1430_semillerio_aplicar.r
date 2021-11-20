@@ -77,7 +77,9 @@ dtrain  <- lgb.Dataset( data= data.matrix(  dataset[ generacion==1, campos_bueno
                         label= dataset[ generacion==1, clase01] )
 
 
-
+cat("x$gleaf_size")
+cat(x$gleaf_size)
+cat(x$gleaf_size/10.0)
 #Hago la transformacion de los hiperparametros
 x$min_data_in_leaf  <- pmax( 4 , as.integer( round( nrow(dtrain) /(1+ exp(x$gleaf_size/10.0) ) ) ) )
 max_leaves          <- as.integer( 1 + nrow(dtrain) / x$min_data_in_leaf )
