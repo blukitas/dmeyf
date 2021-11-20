@@ -24,17 +24,17 @@ campos_buenos  <-  setdiff(  colnames( dataset),  c("numero_de_cliente","foto_me
 
 #campos_buenos <- c("ctrx_quarter", "Visa_mpagospesos")
 
-pdf("./work/boxplots.pdf", 20, 8)
+pdf("./work/boxplots_no_continua_sin_outliers.pdf", 20, 8)
 for( campo in  campos_buenos )
 {
-  tbl   <- dataset[ foto_mes<=202011 ,.SD, .SDcols = c( "foto_mes", "clase_ternaria", campo )]
+  tbl   <- dataset[clase_ternaria != 'CONTINUA' & foto_mes<=202011 ,.SD, .SDcols = c( "foto_mes", "clase_ternaria", campo )]
 
   print(ggplot(tbl,
                aes(x=as.character(foto_mes), y=get(campo), fill=clase_ternaria)
                ) +
-        geom_boxplot() +
+        # geom_boxplot() +
         # Por si queremos sacar outliers
-        # geom_boxplot(outlier.shape = NA) +
+        geom_boxplot(outlier.shape = NA) +
         scale_y_continuous(limits = quantile(tbl[,get(campo)],
                                              c(0.05, 0.95),
                                              na.rm=TRUE)

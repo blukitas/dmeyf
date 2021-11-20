@@ -15,7 +15,7 @@ require("ggplot2")
 setwd("~/buckets/b1")
 
 #cargo el dataset donde voy a entrenar
-dataset  <- fread("./datasets/dataset_epic_full_v100.csv.gz")
+dataset  <- fread("./datasetsOri/paquete_premium.csv.gz")
 
 #ordeno el dataset
 setorder( dataset,  foto_mes )

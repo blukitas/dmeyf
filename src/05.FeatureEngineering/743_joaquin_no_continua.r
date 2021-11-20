@@ -27,7 +27,7 @@ campos_buenos  <-  setdiff(  colnames( dataset),  c("numero_de_cliente","foto_me
 pdf("./work/boxplots.pdf", 20, 8)
 for( campo in  campos_buenos )
 {
-  tbl   <- dataset[ foto_mes<=202011 ,.SD, .SDcols = c( "foto_mes", "clase_ternaria", campo )]
+  tbl   <- dataset[clase_ternaria != 'CONTINUA' & foto_mes<=202011 ,.SD, .SDcols = c( "foto_mes", "clase_ternaria", campo )]
 
   print(ggplot(tbl,
                aes(x=as.character(foto_mes), y=get(campo), fill=clase_ternaria)
