@@ -22,7 +22,7 @@ setorder( dataset,  foto_mes )
 campos_buenos  <-  setdiff(  colnames( dataset),  c("numero_de_cliente","foto_mes","clase_ternaria" ) )
 
 
-pdf("./work/zeroes_ratio.pdf")
+pdf("./work/no_continua_zeroes_ratio.pdf")
 for( campo in  campos_buenos )
 {
   tbl <- dataset[clase_ternaria != 'CONTINUA' & foto_mes<=202101 ,  list( "zero_ratio" = sum(get(campo)==0, na.rm=TRUE)/.N ) , foto_mes ]
@@ -53,7 +53,7 @@ dev.off()
 
 
 
-pdf("./work/nas_ratio.pdf")
+pdf("./work/no_continua_nas_ratio.pdf")
 for( campo in  campos_buenos )
 {
   tbl <- dataset[clase_ternaria != 'CONTINUA' & foto_mes<=202101 ,  list( "na_ratio" = sum( is.na(get(campo)), na.rm=TRUE)/.N ) , foto_mes ]
@@ -84,7 +84,7 @@ dev.off()
 
 
 
-pdf("./work/promedios.pdf")
+pdf("./work/no_continua_promedios.pdf")
 for( campo in  campos_buenos )
 {
   tbl   <- dataset[clase_ternaria != 'CONTINUA' & foto_mes<=202101 ,  list( "promedio" = mean( get(campo), na.rm=TRUE)) , foto_mes ]
@@ -116,7 +116,7 @@ dev.off()
 
 
 
-pdf("./work/promedios_nocero.pdf")
+pdf("./work/no_continua_promedios_nocero.pdf")
 for( campo in  campos_buenos )
 {
   tbl   <- dataset[clase_ternaria != 'CONTINUA' & foto_mes<=202101 & get(campo)!=0,  list( "promedio" = mean( get(campo), na.rm=TRUE)) , foto_mes ]

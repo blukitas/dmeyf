@@ -24,7 +24,7 @@ campos_buenos  <-  setdiff(  colnames( dataset),  c("numero_de_cliente","foto_me
 
 #campos_buenos <- c("ctrx_quarter", "Visa_mpagospesos")
 
-pdf("./work/boxplots.pdf", 20, 8)
+pdf("./work/boxplots_no_continua.pdf", 20, 8)
 for( campo in  campos_buenos )
 {
   tbl   <- dataset[clase_ternaria != 'CONTINUA' & foto_mes<=202011 ,.SD, .SDcols = c( "foto_mes", "clase_ternaria", campo )]
