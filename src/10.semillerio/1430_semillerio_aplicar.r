@@ -13,7 +13,7 @@ karch_dataset  <- "./datasets/semillerio_dataset_lag1.csv.gz"
 ksalida  <- "semillerio" 
 
 # 200 está bien, porque ahi se estabiliza la superposición de modelos
-kcantidad_semillas  <- 200
+kcantidad_semillas  <- 125
 
 #ATENCION
 #aqui deben ir los mejores valores que salieron de la optimizacion bayesiana
