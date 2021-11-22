@@ -82,7 +82,7 @@ hs <- makeParamSet(
          makeNumericParam("learning_rate",    lower=    0.02 , upper=    0.2),
          makeNumericParam("feature_fraction", lower=    0.1  , upper=    1.0),
          makeNumericParam("gleaf_size",       lower=   20.0  , upper=  100.0),
-         makeNumericParam("gnum_leaves",      lower=    0.01 , upper=    1.0)
+         makeNumericParam("gnum_leaves",      lower=    0.01 , upper=    1.0),
          makeNumericParam("bagging_fraction", lower=    0.1  , upper=    1.0),
          makeIntegerParam("bagging_freq",     lower=    3L   , upper= 1000L),
          makeNumericParam("min_gain_to_split",lower=    0.0  , upper= 50.0),
