@@ -37,9 +37,16 @@ También está en drive una lista de experimentos: https://docs.google.com/sprea
 * E5030 -> 1052
 * E5031 -> 1020
 * E5032 -> 1030
-* E5033 -> 1040
+* E5033 -> 1051-1061
+* E5034 -> 1021
+* E5035 -> 1081_44
+* E5036 -> 1081_78
+* E5037 -> 1081_132
+* E5038 -> 1081_39
+* E5039 -> 1081_74
+* E5040 -> 1081_85
+
 * E5034 -> 1051 de nuevo - prox
-* E5035 -> 1081 (Deberia)
 * E5036 -> 1082 (Deberia)
 
 En los 98X -> Genero la misma corrida con muchas semillas (10 suele se suficiente para ver si dos distribuciones tienen diferencias significativas). 
