@@ -26,7 +26,7 @@ setwd( directory.root )
 
 kexperimento  <- NA
 
-kscript         <- "1082_74_epic"
+kscript         <- "1081_41_epic"
 karch_dataset   <- "./datasets/dataset_epic_v1052.csv.gz"  #el dataset que voy a utilizar
 
 ktest_mes_hasta  <- 202011  #Esto es lo que uso para testing
@@ -117,10 +117,10 @@ param_basicos  <- list( objective= "binary",
                         boost_from_average= TRUE,
                         feature_pre_filter= FALSE,
                         max_depth=  -1,         # -1 significa no limitar,  por ahora lo dejo fijo
-                        min_gain_to_split= 0.0, #por ahora, lo dejo fijo
-                        lambda_l1= 0.0,         #por ahora, lo dejo fijo
-                        lambda_l2= 0.0,         #por ahora, lo dejo fijo
-                        max_bin= 31,            #por ahora, lo dejo fijo
+                        # min_gain_to_split= 0.0, #por ahora, lo dejo fijo
+                        # lambda_l1= 0.0,         #por ahora, lo dejo fijo
+                        # lambda_l2= 0.0,         #por ahora, lo dejo fijo
+                        # max_bin=31,            #por ahora, lo dejo fijo
                         force_row_wise= TRUE    #para que los alumnos no se atemoricen con tantos warning
                        )
 
@@ -128,17 +128,17 @@ param_basicos  <- list( objective= "binary",
 #Estos hiperparametros salieron de la optimizacion bayesiana del script 965
 #ganancia  7706250  ( sobre la mitad de 202011 )
 #hiperparametros encontrados en la iteracion bayesiana 41 de un total de 100 inteligentes
-param_ganadores  <- list( "learning_rate"=0.044909380123335, 
-                          "feature_fraction"=0.604275067495363,
-                          "bagging_fraction"=0.873568671546943,
-                          "bagging_freq"= 86,
-                          "min_gain_to_split"=5.116859488620160,
-                          "min_data_in_leaf"=518,
-                          "num_leaves"=654,
-                          "max_bin"=54,
-                          "lambda_l1"=80.377631565966900,
-                          "lambda_l2"=93.948130929033300,
-                          "ratio_corte"=0.0406258107169458
+param_ganadores  <- list( "learning_rate"=0.037548258717609, 
+                          "feature_fraction"=0.755927099783894,
+                          "bagging_fraction"=0.907610363993767,
+                          "bagging_freq"= 45,
+                          "min_gain_to_split"=11.472053508466400,
+                          "min_data_in_leaf"=776,
+                          "num_leaves"=1004,
+                          "max_bin"=67,
+                          "lambda_l1"=87.537888722099600,
+                          "lambda_l2"=31.270470683499500,
+                          "ratio_corte"=0.0342488681345351
                         )
 
 #junto ambas listas de parametros en una sola
