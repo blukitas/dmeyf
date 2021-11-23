@@ -11,10 +11,13 @@ setwd("/home/lucas/Desktop/2021/Maestria/02.05.Data.Mining.E.y.F/Repo.TP/dmeyf/s
 corrida <- list()
 
 # corrida$arch_testing1  <- "./work/E5008/E5008_981_epic.txt"
-corrida$arch_testing1  <- "./work/E5009/E5009_982_epic.txt"
+# corrida$arch_testing1  <- "./work/E5009/E5009_982_epic.txt"
+corrida$arch_testing1  <- "./work/E5029/E5029_988_184_epic.txt"
+# corrida$arch_testing1  <- "./work/E5017/E5017_987_61_epic.txt"
 # corrida$arch_testing1  <- "./work/E5010/E5010_983_epic.txt"
 # corrida$arch_testing2  <- "./work/E5012/E5012_984_epic.txt"
-corrida$arch_testing2  <- "./work/E5018/E5018_987_80_epic.txt"
+# corrida$arch_testing2  <- "./work/E5035/E5035_1081_41_epic.txt"
+corrida$arch_testing2  <- "./work/E5040/E5040_1082_85_epic.txt"
 
 # corrida$arch_kaggle1  <- "./work/E5016_991_epic.txt"
 # corrida$arch_kaggle2  <- "./work/E5018_992_epic.txt"
@@ -54,12 +57,16 @@ wilcox.test(  resultados_testing1[ oficial==1, ganancia ][ 1:10],
 wilcox.test(  resultados_testing1[ oficial==1, ganancia ][  1:20],
               resultados_testing2[ oficial==1, ganancia ][  1:20], 
               paired=TRUE
-              )
+            )
 
 
 #Hay solo 10 datos, pero debería darse cuenta que son distintos
 resultados_testing1[ oficial==1, ganancia ][ 1:20]
 resultados_testing2[ oficial==1, ganancia ][1:20]
+#media de cada grupo
+mean(resultados_testing1[ oficial==1, ganancia ][ 1:20])
+mean(resultados_testing2[ oficial==1, ganancia ][1:20])
+
 # resultados_testing2[ oficial==1, ganancia ][11:20]
 
 wilcox.test(  resultados_testing1[ oficial==1, ganancia ][ 1:10],

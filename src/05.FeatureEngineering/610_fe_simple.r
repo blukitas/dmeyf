@@ -251,7 +251,7 @@ dataset1  <- fread("./datasetsOri/paquete_premium_202009.csv")
 dataset2  <- fread("./datasetsOri/paquete_premium_202011.csv")
 inflacion <- fread("./datasetsOri/20211116-indice-inflacion.csv")
 
-
+dataset1[clase_ternaria != 'CONTINUA' & foto_mes<=202011, ]
 
 EnriquecerDataset( dataset1, "./datasets/paquete_premium_202009_def.csv" )
 EnriquecerDataset( dataset2, "./datasets/paquete_premium_202011_def.csv" )
