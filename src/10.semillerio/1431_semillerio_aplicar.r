@@ -2,9 +2,17 @@
 rm( list=ls() )  #remove all objects
 gc()             #garbage collection
 
+require("rlist")
+require("yaml")
+
 require("data.table")
 require("lightgbm")
+install.packages("primes")
 require("primes")
+
+#paquetes necesarios para la Bayesian Optimization
+require("DiceKriging")
+require("mlrMBO")
 
 
 setwd("~/buckets/b1/")
