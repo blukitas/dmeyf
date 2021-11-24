@@ -14,12 +14,13 @@ require("rlist")
 require("yaml")
 
 require("lightgbm")
-
+ 
 
 #defino la carpeta donde trabajo
 directory.root  <-  "~/buckets/b1/"  #Google Cloud
 setwd( directory.root )
 
+# Todos los features + canaritos
 palancas  <- list()  #variable con las palancas para activar/desactivar
 
 palancas$version  <- "v1053"   #Muy importante, ir cambiando la version
