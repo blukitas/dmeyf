@@ -89,7 +89,7 @@ hs <- makeParamSet(
         #  makeIntegerParam("min_data_in_bin",  lower=   20L   , upper= 8000L),
         #  makeIntegerParam("min_data_in_leaf", lower=   20L   , upper= 8000L),
         #  makeIntegerParam("num_leaves",       lower=  100L   , upper= 1024L),
-         makeIntegerParam("max_bin",          lower=    3L   , upper= 300L),
+         makeIntegerParam("max_bin",          lower=    3L   , upper= 255L),
          makeNumericParam("lambda_l1",        lower=    0.0  , upper= 200.0),
          makeNumericParam("lambda_l2",        lower=    0.0  , upper= 200.0)         
         )
@@ -200,6 +200,21 @@ EstimarGanancia_lightgbm  <- function( x )
   gc()
   GLOBAL_iteracion  <<- GLOBAL_iteracion + 1
 
+  #validacion es una mitad de 202011
+  dvalid  <- lgb.Dataset( data=    data.matrix(  dapply[ fold==1, campos_buenos, with=FALSE]),
+                          label=   dapply[ fold==1, clase01],
+                          weight=  dapply[ fold==1, ifelse(clase_ternaria=="BAJA+2", 1.0000001, 1.0)] ,
+                          free_raw_data= FALSE
+                        )
+
+  #genero el dataset de training con el formato que necesita LightGBM
+  dtrain  <- lgb.Dataset( data=    data.matrix(  dataset[ train==1 , campos_buenos, with=FALSE]),
+                          label=   dataset[ train==1, clase01],
+                          weight=  dataset[ train==1, ifelse(clase_ternaria=="BAJA+2", 1.0000001, 1.0)] ,
+                          free_raw_data= FALSE
+                        )
+
+
   param_basicos  <- list( objective= "binary",
                           metric= "custom",
                           first_metric_only= TRUE,
@@ -210,7 +225,7 @@ EstimarGanancia_lightgbm  <- function( x )
                           # min_gain_to_split= 0.0, #por ahora, lo dejo fijo
                           # lambda_l1= 0.0,         #por ahora, lo dejo fijo
                           # lambda_l2= 0.0,         #por ahora, lo dejo fijo
-                          max_bin= 31,            #MAX BIN extremo, para  German y Daiana
+                          # max_bin= 31,            #MAX BIN extremo, para  German y Daiana
                           num_iterations= 9999,   #un numero muy grande, lo limita early_stopping_rounds
                           early_stopping_rounds= 200,
                           force_row_wise= TRUE    #para que los alumnos no se atemoricen con tantos warning

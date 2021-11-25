@@ -42,6 +42,7 @@ x$lambda_l1 <- 0.21183583148739
 x$lambda_l2 <- 141.69389448401500
 x$max_bin <- 224
 x$num_iterations  <- 358
+# x$pos_ratio  <- 
 
 #------------------------------------------------------------------------------
 
@@ -187,7 +188,7 @@ for( semilla in  ksemillas)
   tb_predicciones[  , paste0( "pred_", isemilla ) :=  prediccion ]  #guardo el resultado de esta prediccion
 
 
-  if(  isemilla %% 5 == 0 )  #imprimo cada 5 semillas
+  if(  isemilla %% 10 == 0 )  #imprimo cada 10 semillas
   {
     #Genero la entrega para Kaggle
     entrega  <- as.data.table( list( "numero_de_cliente"= dfuturo[  , numero_de_cliente],
@@ -195,8 +196,19 @@ for( semilla in  ksemillas)
 
     setorder( entrega, -prob )
 
+    #genero la salida oficial, sin mesetas
+    entrega[ ,  Predicted := 0L ]
+    cantidad_estimulos  <-  as.integer( nrow(dfuturo)*x$pos_ratio )
+    entrega[ 1:cantidad_estimulos,  Predicted := 1L ]  #me quedo con los primeros
 
-    for(  corte  in seq( 10000, 15000, 1000) ) #imprimo cortes en 10000, 11000, 12000, 13000, 14000 y 15000
+    #genero el archivo para Kaggle
+    fwrite( entrega[ , c("numero_de_cliente","Predicted"), with=FALSE], 
+            file=  paste0(  kkaggle, isemilla, ".csv" ),  
+            sep= "," )
+
+
+
+    for(  corte  in seq( 11000, 14000, 1000) ) #imprimo cortes en 10000, 11000, 12000, 13000, 14000 y 15000
     {
       entrega[ ,  Predicted := 0L ]
       entrega[ 1:corte,  Predicted := 1L ]  #me quedo con los primeros
