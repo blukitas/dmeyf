@@ -380,6 +380,9 @@ ksemillas  <- sample(primos)[ 1:kcantidad_semillas ]   #me quedo con kcantidad_s
 
 #cargo el dataset que tiene los 36 meses
 dataset  <- fread(karchivo_dataset)
+print("dataset")
+print(dataset)
+
 dataset  <- dataset[ foto_mes >= kfecha_cutoff ]
 gc()
 setorder( dataset,  foto_mes, numero_de_cliente )
