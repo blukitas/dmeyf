@@ -63,7 +63,6 @@ kfecha_cutoff  <- 202001
 ktrain_desde   <- 202001
 ktrain_hasta   <- 202009
 
-
 kBO_iter    <-  200   #cantidad de iteraciones de la Optimizacion Bayesiana
 
 kcantidad_semillas  <- 10
