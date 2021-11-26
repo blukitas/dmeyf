@@ -712,7 +712,7 @@ correr_todo  <- function( palancas )
 
   if( palancas$tendencia6 )  Tendencia( dataset, cols_analiticas)
 
-if( palancas$antonio )  Antonio(dataset, cols_analiticas)
+  if( palancas$antonio )  Antonio(cols_analiticas)
 
   if( palancas$deflactar )  DeflactarDataset( dataset)
 
