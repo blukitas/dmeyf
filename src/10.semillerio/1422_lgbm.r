@@ -200,18 +200,18 @@ EstimarGanancia_lightgbm  <- function( x )
   GLOBAL_iteracion  <<- GLOBAL_iteracion + 1
 
   #validacion es una mitad de 202011
-  dvalid  <- lgb.Dataset( data=    data.matrix(  dapply[ fold==1, campos_buenos, with=FALSE]),
-                          label=   dapply[ fold==1, clase01],
-                          weight=  dapply[ fold==1, ifelse(clase_ternaria=="BAJA+2", 1.0000001, 1.0)] ,
-                          free_raw_data= FALSE
-                        )
+  # dvalid  <- lgb.Dataset( data=    data.matrix(  dapply[ fold==1, campos_buenos, with=FALSE]),
+  #                         label=   dapply[ fold==1, clase01],
+  #                         weight=  dapply[ fold==1, ifelse(clase_ternaria=="BAJA+2", 1.0000001, 1.0)] ,
+  #                         free_raw_data= FALSE
+  #                       )
 
-  #genero el dataset de training con el formato que necesita LightGBM
-  dtrain  <- lgb.Dataset( data=    data.matrix(  dapply[ train==1 , campos_buenos, with=FALSE]),
-                          label=   dapply[ train==1, clase01],
-                          weight=  dapply[ train==1, ifelse(clase_ternaria=="BAJA+2", 1.0000001, 1.0)] ,
-                          free_raw_data= FALSE
-                        )
+  # #genero el dataset de training con el formato que necesita LightGBM
+  # dtrain  <- lgb.Dataset( data=    data.matrix(  dapply[ train==1 , campos_buenos, with=FALSE]),
+  #                         label=   dapply[ train==1, clase01],
+  #                         weight=  dapply[ train==1, ifelse(clase_ternaria=="BAJA+2", 1.0000001, 1.0)] ,
+  #                         free_raw_data= FALSE
+  #                       )
 
 
   param_basicos  <- list( objective= "binary",
