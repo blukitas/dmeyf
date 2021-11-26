@@ -508,9 +508,10 @@ Tendencia  <- function( dataset, cols )
 #Esta palanca fue solicitada por  Antonio Velazquez Bustamente
 #agregar una palanca al script 951 que genere el valor de la variable/(el promedio de la misma de todos los clientes para el mes en cuestión)
 
-Antonio  <- function( cols )
+Antonio  <- function(dataset, cols )
 {
 
+  cat("Antonio dataset")
   sufijo  <- paste0( "_tony")
 
   dataset[ , paste0( cols, sufijo) := lapply( .SD,  function(x){ x/mean(x, na.rm=TRUE)} ), 
@@ -712,7 +713,7 @@ correr_todo  <- function( palancas )
 
   if( palancas$tendencia6 )  Tendencia( dataset, cols_analiticas)
 
-  if( palancas$antonio )  Antonio(cols_analiticas)
+  if( palancas$antonio )  Antonio(dataset, cols_analiticas)
 
   if( palancas$deflactar )  DeflactarDataset( dataset)
 
