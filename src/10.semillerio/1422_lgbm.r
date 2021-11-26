@@ -207,9 +207,9 @@ EstimarGanancia_lightgbm  <- function( x )
                         )
 
   #genero el dataset de training con el formato que necesita LightGBM
-  dtrain  <- lgb.Dataset( data=    data.matrix(  dataset[ train==1 , campos_buenos, with=FALSE]),
-                          label=   dataset[ train==1, clase01],
-                          weight=  dataset[ train==1, ifelse(clase_ternaria=="BAJA+2", 1.0000001, 1.0)] ,
+  dtrain  <- lgb.Dataset( data=    data.matrix(  dapply[ train==1 , campos_buenos, with=FALSE]),
+                          label=   dapply[ train==1, clase01],
+                          weight=  dapply[ train==1, ifelse(clase_ternaria=="BAJA+2", 1.0000001, 1.0)] ,
                           free_raw_data= FALSE
                         )
 
@@ -380,8 +380,6 @@ ksemillas  <- sample(primos)[ 1:kcantidad_semillas ]   #me quedo con kcantidad_s
 
 #cargo el dataset que tiene los 36 meses
 dataset  <- fread(karchivo_dataset)
-print("dataset")
-print(dataset)
 
 dataset  <- dataset[ foto_mes >= kfecha_cutoff ]
 gc()
