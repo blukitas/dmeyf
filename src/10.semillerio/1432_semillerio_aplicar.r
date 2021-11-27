@@ -43,7 +43,7 @@ x$lambda_l2 <- 163.0017370593740
 x$max_bin <- 95
 x$num_iterations  <- 445
 x$pos_ratio  <- 0.04725799837647390
-
+ 
 #------------------------------------------------------------------------------
 
 particionar  <- function( data,  division, agrupa="",  campo="fold", start=1, seed=NA )
