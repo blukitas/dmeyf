@@ -21,6 +21,7 @@ kexperimento  <- NA
 
 karch_dataset  <- "./datasets/dataset_epic_v1053.csv.gz"
 ksalida  <- "semillerio" 
+kscript  <- "s1432"
 
 # 200 está bien, porque ahi se estabiliza la superposición de modelos
 # 200 demoro se cortó. A mas de 20 horas, iba 151 
