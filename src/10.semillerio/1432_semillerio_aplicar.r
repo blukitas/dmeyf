@@ -45,17 +45,6 @@ x$num_iterations  <- 445
 x$pos_ratio  <- 0.04725799837647390
  
 #------------------------------------------------------------------------------
-
-particionar  <- function( data,  division, agrupa="",  campo="fold", start=1, seed=NA )
-{
-  if( !is.na(seed) )   set.seed( seed )
-
-  bloque  <- unlist( mapply(  function(x,y) { rep( y, x )} ,   division,  seq( from=start, length.out=length(division) )  ) )  
-
-  data[ ,  (campo) :=  sample( rep( bloque, ceiling(.N/length(bloque))) )[1:.N],
-            by= agrupa ]
-}
-#------------------------------------------------------------------------------
 #Funcion que lleva el registro de los experimentos
 
 get_experimento  <- function()
@@ -74,8 +63,34 @@ get_experimento  <- function()
 }
 #------------------------------------------------------------------------------
 
+particionar  <- function( data,  division, agrupa="",  campo="fold", start=1, seed=NA )
+{
+  if( !is.na(seed) )   set.seed( seed )
+
+  bloque  <- unlist( mapply(  function(x,y) { rep( y, x )} ,   division,  seq( from=start, length.out=length(division) )  ) )  
+
+  data[ ,  (campo) :=  sample( rep( bloque, ceiling(.N/length(bloque))) )[1:.N],
+            by= agrupa ]
+}
+#------------------------------------------------------------------------------
+
 
 setwd("~/buckets/b1/")
+
+if( is.na(kexperimento ) )   kexperimento <- get_experimento()  #creo el experimento
+
+#en estos archivos quedan los resultados
+
+dir.create( paste0( "./kaggle/E",  kexperimento, "/" ) )     #creo carpeta del experimento dentro de work
+
+#en estos archivos quedan los resultados
+dir.create( paste0( "./work/E",  kexperimento, "/" ) )     #creo carpeta del experimento dentro de work
+dir.create( paste0( "./kaggle/E",  kexperimento, "/" ) )   #creo carpeta del experimento dentro de kaggle
+dir.create( paste0( "./kaggle/E",  kexperimento, "/meseta/" ) )   #creo carpeta del experimento dentro de kaggle
+
+kkaggle       <- paste0("./kaggle/E",kexperimento, "/E",  kexperimento, "_", kscript, "_" )
+kkagglemeseta <- paste0("./kaggle/E",kexperimento, "/meseta/E",  kexperimento, "_", kscript, "_" )
+
 
 set.seed( 102191 )   #dejo fija esta semilla
 
@@ -157,12 +172,6 @@ param_buenos  <- list( objective= "binary",
 
 #inicializo donde voy a guardar los resultados
 tb_predicciones  <- as.data.table( list( predicciones_acumuladas = rep( 0, nrow(dfuturo) ) ) )
-
-
-if( is.na(kexperimento ) )   kexperimento <- get_experimento()  #creo el experimento
-
-#en estos archivos quedan los resultados
-dir.create( paste0( "./kaggle/E",  kexperimento, "/" ) )     #creo carpeta del experimento dentro de work
 
 
 isemilla  <- 0
