@@ -208,7 +208,7 @@ for( semilla in  ksemillas)
 
 
 
-    for(  corte  in seq( 11000, 14000, 1000) ) #imprimo cortes en 10000, 11000, 12000, 13000, 14000 y 15000
+    for(  corte  in seq( 10000, 14000, 250) ) #imprimo cortes en 10000, 11000, 12000, 13000, 14000 y 15000
     {
       entrega[ ,  Predicted := 0L ]
       entrega[ 1:corte,  Predicted := 1L ]  #me quedo con los primeros
