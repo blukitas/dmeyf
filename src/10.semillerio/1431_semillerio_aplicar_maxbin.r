@@ -79,6 +79,7 @@ kkagglemeseta <- paste0("./kaggle/E",kexperimento, "/meseta/E",  kexperimento, "
 
 
 set.seed( 102191 )   #dejo fija esta semilla
+
 #me genero un vector de semilla buscando numeros primos al azar
 primos  <- generate_primes(min=100000, max=1000000)  #genero TODOS los numeros primos entre 100k y 1M
 ksemillas  <- sample(primos)[ 1:kcantidad_semillas ]   #me quedo con CANTIDAD_SEMILLAS primos al azar
