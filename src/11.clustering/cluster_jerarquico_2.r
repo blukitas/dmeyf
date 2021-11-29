@@ -6,14 +6,16 @@ rm( list=ls() )  #remove all objects
 gc()             #garbage collection
 
 #####################################
-dataset <- fread( "datasets/paquete_premium_meses_muerte.txt.gz", stringsAsFactors= TRUE)
+dataset <- fread( "datasets/dataset_epic_v952.csv.gz", stringsAsFactors= TRUE)
+# dataset <- fread( "datasets/paquete_premium_meses_muerte.txt.gz", stringsAsFactors= TRUE)
 setwd( "~/buckets/b1/" )
 gc()
 
 # FILTRAR A GUSTO
 #dataset[  ,  azar := runif( nrow(dataset) ) ]
 #unique(dataset[ meses_muerte == NA , ])
-dataset  <-  dataset[  meses_muerte == 4  & foto_mes==202008, ]# & foto_mes<=202009, ]
+# dataset  <-  dataset[  meses_muerte == 4  & foto_mes==202008, ]# & foto_mes<=202009, ]
+dataset  <-  dataset[  foto_mes==202011, ]# & foto_mes<=202009, ]
 
 gc()
 
