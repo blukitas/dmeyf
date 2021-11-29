@@ -6,7 +6,7 @@ rm( list=ls() )  #remove all objects
 gc()             #garbage collection
 
 #####################################
-dataset <- fread( "datasets/dataset_epic_v952.csv.gz", stringsAsFactors= TRUE)
+dataset <- fread( "./datasets/dataset_epic_v952.csv.gz", stringsAsFactors= TRUE)
 # dataset <- fread( "datasets/paquete_premium_meses_muerte.txt.gz", stringsAsFactors= TRUE)
 setwd( "~/buckets/b1/" )
 gc()
