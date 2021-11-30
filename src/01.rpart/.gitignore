@@ -142,3 +142,4 @@ dmypy.json
 # Data files
 *.csv
 *.log
+*.gz
