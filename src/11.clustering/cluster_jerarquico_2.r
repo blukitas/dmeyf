@@ -1,6 +1,7 @@
 require("data.table")
 require("randomForest")
 
+
 #limpio la memoria
 rm( list=ls() )  #remove all objects
 gc()             #garbage collection
@@ -8,14 +9,17 @@ gc()             #garbage collection
 #####################################
 # dataset <- fread( "datasets/paquete_premium_meses_muerte.txt.gz", stringsAsFactors= TRUE)
 setwd( "~/buckets/b1/" )
+
+#leo el dataset , aqui se puede usar algun super dataset con Feature Engineering
 dataset <- fread( "./datasets/dataset_epic_v952.csv.gz", stringsAsFactors= TRUE)
+# dataset  <- fread( "datasetsOri/paquete_premium.csv.gz", stringsAsFactors= TRUE)
 gc()
 
 # FILTRAR A GUSTO
 #dataset[  ,  azar := runif( nrow(dataset) ) ]
 #unique(dataset[ meses_muerte == NA , ])
 # dataset  <-  dataset[  meses_muerte == 4  & foto_mes==202008, ]# & foto_mes<=202009, ]
-dataset  <-  dataset[  foto_mes==202011, ]# & foto_mes<=202009, ]
+dataset  <-  dataset[  clase_ternaria =="BAJA+1"  & foto_mes==202011, ]# & foto_mes<=202009, ]
 
 gc()
 
@@ -35,25 +39,25 @@ campos_buenos  <- c( "ctrx_quarter", "cpayroll_trx", "mcaja_ahorro", "mtarjeta_v
                      "mcomisiones", "Visa_cconsumos", "ccomisiones_otras", "Master_status", "mtransferencias_emitidas",
                      "mpagomiscuentas")
 
-# #
-# #
-# #Ahora, a esperar mucho con este algoritmo del pasado que NO correr en paralelo, patetico
+
+
+#Ahora, a esperar mucho con este algoritmo del pasado que NO correr en paralelo, patetico
 modelo  <- randomForest( x= dataset[ , campos_buenos, with=FALSE ],
                          y= NULL,
                          ntree= 1000, #se puede aumentar a 10000
                          proximity= TRUE,
                          oob.prox = TRUE )
-# 
+
 #genero los clusters jerarquicos
 hclust.rf  <- hclust( as.dist ( 1.0 - modelo$proximity),  #distancia = 1.0 - proximidad
                       method= "ward.D2" )
-# 
-# 
+
+
 pdf( paste0( paste0("./work/cluster_jerarquico.pdf" ) ))
 plot( hclust.rf )
 dev.off()
-# 
-# 
+
+
 h <- 20
 distintos <- 0
 
