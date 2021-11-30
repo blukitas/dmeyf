@@ -23,15 +23,15 @@ setwd( directory.root )
 # Todos los features + canaritos
 palancas  <- list()  #variable con las palancas para activar/desactivar
 
-palancas$version  <- "v747_full"   #Muy importante, ir cambiando la version
+palancas$version  <- "v748_full"   #Muy importante, ir cambiando la version
 
 palancas$variablesdrift  <- c()   #aqui van las columnas que se quieren eliminar
 
-palancas$corregir <-  TRUE    # TRUE o FALSE
+palancas$corregir <-  FALSE    # TRUE o FALSE
 
-palancas$nuevasvars <-  TRUE  #si quiero hacer Feature Engineering manual
+palancas$nuevasvars <-  FALSE  #si quiero hacer Feature Engineering manual
 
-palancas$dummiesNA  <-  TRUE #La idea de Santiago Dellachiesa
+palancas$dummiesNA  <-  FALSE #La idea de Santiago Dellachiesa
 
 palancas$lag1   <- TRUE    #lag de orden 1
 palancas$delta1 <- TRUE    # campo -  lag de orden 1 
@@ -60,9 +60,9 @@ palancas$ratiomean6  <- TRUE   #Un derivado de la idea de Daiana Sparta
 
 palancas$tendencia6  <- TRUE    #Great power comes with great responsability
 
-palancas$deflactar <-  TRUE  #si quiero hacer Feature Engineering manual
+palancas$deflactar <-  FALSE  #si quiero hacer Feature Engineering manual
 
-palancas$dolarizar <-  TRUE  #si quiero hacer Feature Engineering manual
+palancas$dolarizar <-  FALSE  #si quiero hacer Feature Engineering manual
 
 palancas$antonio  <- FALSE   # el valor de la variable sobre el promedio de ese mes
 
