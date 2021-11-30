@@ -1,0 +1,119 @@
+---
+title: "Análisis cualitativo - DM EyF"
+author: 'Lucas Bertolini'
+date: "30 de Noviembre de 2021"
+output:
+  html_document:
+    toc: yes
+    df_print: paged
+  html_notebook:
+    df_print: paged
+    toc: yes
+    toc_float: yes
+    depth: 3
+---
+
+# DM E y F
+
+
+```{r}
+# install.packages('corrr')
+# install.packages("gridExtra")
+# install.packages('kableExtra')
+# install.packages("tidymodels")
+```
+
+```{r}
+library('arules')
+library("corrr")
+library("GGally")
+library("gridExtra")
+library("kableExtra")
+library("knitr")
+library("MASS")
+library("modelr")
+library("openintro")
+library("tidymodels")
+library("tidyverse")
+require("data.table")
+```
+
+## Leer los datasets
+```{r}
+version <-"v952"
+# version <-"v1054"
+# version <-"v747_full"
+```
+
+```{r}
+clusters <- read.table(paste0("./12.clustering",version,".csv"), header = TRUE, sep = ";")
+head(clusters)
+```
+```{r}
+colnames(clusters) =  gsub(".x", "_mean", colnames(clusters))
+colnames(clusters) =  gsub(".y", "_std", colnames(clusters))
+head(clusters)
+```
+
+```{r}
+nro_cli <- read.table(paste0("./datasets_nro_cli_cluster_",version,".csv"), header = TRUE, sep = "\t")
+head(nro_cli)
+```
+```{r}
+version <- 'v952'
+paste0("./datasets_dataset_noviembre_",version,".gz")
+```
+Levanto el útlimos dataset, donde voy a predecir. Me quedo con los baja+1, los que están cerca de irse. Los que clusterice, pero los veo solo para este último mes + sus lags/deltas
+
+```{r}
+setwd("/home/lucas/Desktop/2021/Maestria/02.05.Data.Mining.E.y.F/Repo.TP/dmeyf/src/11.clustering/")  #Establezco el Working Directory
+dataset <- fread(paste0("./datasets_dataset_noviembre_",version,".gz"), stringsAsFactors= TRUE)
+dataset <- dataset[clase_ternaria =="BAJA+1",]
+
+gc()
+```
+
+Junto numero de cliente y cluster
+
+```{r}
+dataset[nro_cli, on = 'numero_de_cliente', cluster2 := cluster2]
+```
+
+### Columnas
+
+```{r}
+colnames(dataset)
+```
+
+
+## Distribución de clusters
+
+```{r}
+ggplot(dataset, aes(x = cluster2)) +
+        geom_bar(alpha = 0.75, 
+                 fill = "#1B9E77",
+                 color = "white")+
+        labs(title = "Cant. personas cluster") +
+        labs(x = "Cluster", y = "Cantidad") +
+        theme_bw()
+```
+
+## Media de variables y 
+
+```{r}
+# d2 <- dataset[,c("cliente_edad", "cliente_antiguedad","mcaja_ahorro", "mcaja_ahorro_lag1", "mcaja_ahorro_lag2", "mcaja_ahorro_lag3", "mcaja_ahorro_lag6")]
+d2 <- dataset[,c("cliente_edad", "cliente_antiguedad","mcaja_ahorro", "mcaja_ahorro_lag1", "mcaja_ahorro_lag3", "mcaja_ahorro_lag6", "cluster2")]
+# d2 <- dataset[,c("cliente_edad", "cliente_antiguedad","ctrx_quarter", "ctrx_quarter_lag1", "ctrx_quarter_lag3", "ctrx_quarter_lag6", "cluster2")]
+# d2 <- dataset[,c("cliente_edad", "cliente_antiguedad", "mtarjeta_visa_consumo", "mtarjeta_visa_consumo_lag1", "mtarjeta_visa_consumo_lag3", "mtarjeta_visa_consumo_lag6", "cluster2")]
+d2 [, lapply(.SD, mean), by = cluster2]
+```
+
+
+```{r}
+ggplot(dataset, aes(x = cproductos, y = cliente_edad, fill = factor(cproductos))) +
+  geom_boxplot() +
+  facet_wrap(~cluster2) +
+  scale_y_continuous(name = "Edad promedio cluster") +
+  scale_x_discrete(labels=cproductos, name = "cant productos")
+```
+

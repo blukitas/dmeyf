@@ -8,8 +8,9 @@ gc()             #garbage collection
 
 setwd( "~/buckets/b1/" )
 
+version <- "v747_full"
 #leo el dataset , aqui se puede usar algun super dataset con Feature Engineering
-dataset <- fread( "./datasets/dataset_epic_v952.csv.gz", stringsAsFactors= TRUE)
+dataset <- fread(paste0("./datasets/dataset_epic_",version,".csv.gz"), stringsAsFactors= TRUE)
 # dataset  <- fread( "datasetsOri/paquete_premium.csv.gz", stringsAsFactors= TRUE)
 gc()
 
@@ -48,7 +49,7 @@ hclust.rf  <- hclust( as.dist ( 1.0 - modelo$proximity),  #distancia = 1.0 - pro
                       method= "ward.D2" )
 
 
-pdf( paste0( paste0("./work/cluster_jerarquico.pdf" ) ))
+pdf( paste0( paste0("./work/cluster_jerarquico",version,".pdf" ) ))
 plot( hclust.rf )
 dev.off()
 
@@ -87,8 +88,12 @@ dataset[  , mean(ctrx_quarter),  cluster2 ]  #media de la variable  ctrx_quarter
 # Calcular Medias y Varianza para cada variable en cada cluster
 # SELECCIONAR VARIABLES PARA MIRAR
 
-cortar <- c("ctrx_quarter", "numero_de_cliente", "mcaja_ahorro", "mtarjeta_visa_consumo", "mcuentas_saldo",
-"ctarjeta_visa_transacciones", "cpayroll_trx", "mpayroll", "mprestamos_personales", "cluster2")
+cortar <- c("ctrx_quarter", "numero_de_cliente", 
+            "mcaja_ahorro", "mtarjeta_visa_consumo", 
+            "mcuentas_saldo","ctarjeta_visa_transacciones", 
+            "cpayroll_trx", "mpayroll", 
+            #"ctrx_quarter_avg3", "mcuentas_saldo_avg3",
+            "mprestamos_personales", "cluster2")
 # cortar <- c( "cluster2", "ctrx_quarter", "cpayroll_trx", "mcaja_ahorro", "mtarjeta_visa_consumo", "ctarjeta_visa_transacciones",
 #                                   "mcuentas_saldo", "mrentabilidad_annual", "mprestamos_personales", "mactivos_margen", "mpayroll",
 #                                   "Visa_mpagominimo", "Master_fechaalta", "cliente_edad", "chomebanking_transacciones", "Visa_msaldopesos",
@@ -104,11 +109,11 @@ vars.std <- d[, lapply(.SD, sd), by = cluster2]
 colnames(d)
 vars.mean.std = merge(vars.mean, vars.std, by = 'cluster2')
 
+vars.mean.std
+fwrite(vars.mean.std,
+       file=paste0("12.clustering",version,".csv"),
+       sep=";" )
 
-# fwrite(vars.mean.std,
-#         file="datasets/baja1OctClusters.txt",
-#         sep="\t" )
-# 
 # # #############################################################################
 # require('ggplot2')
 # 
@@ -128,3 +133,9 @@ vars.mean.std = merge(vars.mean, vars.std, by = 'cluster2')
 #         file="datasets/baja4AgoClusters.txt",
 #         sep="\t" )
 
+## Guardo el cluster asignado
+head(dataset[, c("numero_de_cliente", "cluster2")])
+
+fwrite(dataset[, c("numero_de_cliente", "cluster2")],
+       file=paste0("datasets/nro_cli_cluster",version,".csv"),
+       sep="\t" )
