@@ -17,12 +17,12 @@ directory.root  <-  "~/buckets/b1/"  #Google Cloud
 setwd( directory.root )
 
 #cargo el dataset donde voy a entrenar
-dataset  <- fread("./datasets/dataset_epic_v747_full.csv.gz")
+dataset  <- fread("./datasets/dataset_epic_v951.csv.gz")
 
 cat("Guardo nov")
 #Grabo el dataset
-fwrite( dataset[  foto_mes>=202011  & foto_mes<=202011, ],
-        paste0( "./datasets/dataset_noviembre_747.gz" ),
+fwrite( dataset[  foto_mes>=202007  & foto_mes<=202011, ],
+        paste0( "./datasets/dataset_noviembre_951.gz" ),
         logical01 = TRUE,
         sep= "," )
         
