@@ -8,7 +8,7 @@ gc()             #garbage collection
 
 setwd( "~/buckets/b1/" )
 
-version <- "v747_full"
+version <- "v951"
 #leo el dataset , aqui se puede usar algun super dataset con Feature Engineering
 dataset <- fread(paste0("./datasets/dataset_epic_",version,".csv.gz"), stringsAsFactors= TRUE)
 # dataset  <- fread( "datasetsOri/paquete_premium.csv.gz", stringsAsFactors= TRUE)
@@ -71,7 +71,6 @@ while(  h>0  &  !( distintos >=6 & distintos <=7 ) )
 
 #en  dataset,  la columna  cluster2  tiene el numero de cluster
 #sacar estadicas por cluster
-
 dataset[  , .N,  cluster2 ]  #tamaño de los clusters
 
 #ahora a mano veo las variables
@@ -81,19 +80,28 @@ dataset[  , mean(ctrx_quarter),  cluster2 ]  #media de la variable  ctrx_quarter
 # unique(dataset[ , cluster2])
 # unique(dataset[, clase_ternaria])
 # unique(dataset[clase_ternaria == "BAJA+2", cluster2])
-
+colnames(dataset)
 
 #############################################################################
 
 # Calcular Medias y Varianza para cada variable en cada cluster
 # SELECCIONAR VARIABLES PARA MIRAR
+colnames(dataset)
+# cortar <- c("ctrx_quarter", "ctrx_quarter_lag1", "ctrx_quarter_lag2", #"ctrx_quarter_lag3", "ctrx_quarter_lag4", "ctrx_quarter_lag5", "ctrx_quarter_lag6", 
+#                             "ctrx_quarter_delta1", "ctrx_quarter_delta2", # "ctrx_quarter_delta3", "ctrx_quarter_delta4", "ctrx_quarter_delta5", "ctrx_quarter_delta6",
+#             "numero_de_cliente", 
+#             "mcaja_ahorro", "mtarjeta_visa_consumo", 
+#             "mcuentas_saldo","ctarjeta_visa_transacciones", 
+#             "cpayroll_trx", "mpayroll", 
+#             # "ctrx_quarter_avg3", "mcuentas_saldo_avg3",
+#             "mprestamos_personales", "cluster2")
+campos_lags = c()
+for (i in campos_buenos) 
+{ 
+  campos_lags <- append(campos_lags, c(paste0(i, '_lag1'), paste0(i, '_delta1'),paste0(i, '_lag3'), paste0(i, '_delta3'),paste0(i, '_lag6'), paste0(i, '_delta6')) )  
+}
+cortar <- append(campos_lags, "cluster2")
 
-cortar <- c("ctrx_quarter", "numero_de_cliente", 
-            "mcaja_ahorro", "mtarjeta_visa_consumo", 
-            "mcuentas_saldo","ctarjeta_visa_transacciones", 
-            "cpayroll_trx", "mpayroll", 
-            #"ctrx_quarter_avg3", "mcuentas_saldo_avg3",
-            "mprestamos_personales", "cluster2")
 # cortar <- c( "cluster2", "ctrx_quarter", "cpayroll_trx", "mcaja_ahorro", "mtarjeta_visa_consumo", "ctarjeta_visa_transacciones",
 #                                   "mcuentas_saldo", "mrentabilidad_annual", "mprestamos_personales", "mactivos_margen", "mpayroll",
 #                                   "Visa_mpagominimo", "Master_fechaalta", "cliente_edad", "chomebanking_transacciones", "Visa_msaldopesos",
@@ -106,9 +114,14 @@ cortar <- c("ctrx_quarter", "numero_de_cliente",
 d <- dataset[, cortar, with=FALSE]
 vars.mean <- d[, lapply(.SD, mean), by = cluster2]
 vars.std <- d[, lapply(.SD, sd), by = cluster2]
-colnames(d)
-vars.mean.std = merge(vars.mean, vars.std, by = 'cluster2')
+# colnames(d)
+cortar
+colnames(vars.mean)
+colnames(vars.std)
+vars.mean.std = merge(vars.mean, vars.std, by = c('cluster2'))
 
+colnames(vars.mean.std) =  gsub(".x", "_mean", colnames(vars.mean.std), fixed = TRUE)
+colnames(vars.mean.std) =  gsub(".y", "_std", colnames(vars.mean.std), fixed = TRUE)
 vars.mean.std
 fwrite(vars.mean.std,
        file=paste0("12.clustering",version,".csv"),

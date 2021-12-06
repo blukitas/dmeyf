@@ -1,0 +1,227 @@
+---
+title: "Análisis cualitativo - DM EyF"
+author: 'Lucas Bertolini'
+date: "30 de Noviembre de 2021"
+output:
+  html_document:
+    toc: yes
+    df_print: paged
+  html_notebook:
+    df_print: paged
+    toc: yes
+    toc_float: yes
+    depth: 3
+---
+
+# DM E y F
+
+
+```{r}
+# install.packages('corrr')
+# install.packages("gridExtra")
+# install.packages('kableExtra')
+# install.packages("tidymodels")
+```
+
+```{r}
+library('arules')
+library("corrr")
+require("data.table")
+require("dplyr")
+library("GGally")
+library("gridExtra")
+library("kableExtra")
+library("knitr")
+library("MASS")
+library("modelr")
+library("openintro")
+library("tidymodels")
+library("tidyverse")
+
+```
+
+## Leer los datasets
+```{r}
+# version <-"v952"
+version <-"v951"
+# version <-"v1054"
+# version <-"v747"
+```
+
+```{r}
+clusters <- read.table(paste0("../12.clustering",version,".csv"), header = TRUE, sep = ";")
+head(clusters)
+```
+```{r}
+colnames(clusters) =  gsub(".x", "_mean", colnames(clusters), fixed = TRUE)
+colnames(clusters) =  gsub(".y", "_std", colnames(clusters), fixed = TRUE)
+head(clusters)
+```
+
+```{r}
+colnames(clusters)
+```
+
+```{r}
+guardar_dataset <- function( dataset, columnas , arch_destino )
+{
+  #grabo con nombre extendido
+  fwrite( clusters[, append(c("cluster2"), columnas)],
+          file=arch_destino,
+          sep= "," )
+}
+```
+
+```{r}
+# clusters[, c("cluster2", "cpayroll_trx_delta1_mean",                
+#                          "cpayroll_trx_delta1_std"        ,        
+#                          "cpayroll_trx_delta3_mean"      ,          
+#                          "cpayroll_trx_delta3_std"      ,           
+#                          "cpayroll_trx_delta6_mean"    ,           
+#                          "cpayroll_trx_delta6_std"    ,             
+#                          "cpayroll_trx_lag1_mean"    ,              
+#                          "cpayroll_trx_lag1_std"    ,              
+#                          "cpayroll_trx_lag3_mean"  ,                
+#                          "cpayroll_trx_lag3_std"  ,                 
+#                          "cpayroll_trx_lag6_mean",                 
+#                          "cpayroll_trx_lag6_std"  )]
+cols <- c("cpayroll_trx_delta1_mean",                
+                         "cpayroll_trx_delta1_std"        ,        
+                         "cpayroll_trx_delta3_mean"      ,          
+                         "cpayroll_trx_delta3_std"      ,           
+                         "cpayroll_trx_delta6_mean"    ,           
+                         "cpayroll_trx_delta6_std"    ,             
+                         "cpayroll_trx_lag1_mean"    ,              
+                         "cpayroll_trx_lag1_std"    ,              
+                         "cpayroll_trx_lag3_mean"  ,                
+                         "cpayroll_trx_lag3_std"  ,                 
+                         "cpayroll_trx_lag6_mean",                 
+                         "cpayroll_trx_lag6_std"  )
+guardar_dataset(clusters, cols, './cpayroll.csv')
+```
+
+
+```{r}
+guardar_dataset(clusters, colnames(clusters %>% select(matches("mcomisiones"))), './mcomisiones.csv') 
+```
+
+
+```{r}
+guardar_dataset(clusters, colnames(clusters %>% select(matches("cproductos"))), './cproductos.csv') 
+```
+
+
+```{r}
+guardar_dataset(clusters, colnames(clusters %>% select(matches("ctarjeta_visa_transacciones"))), './ctarjeta_visa_transacciones.csv') 
+```
+
+
+```{r}
+guardar_dataset(clusters, colnames(clusters %>% select(matches("ctrx_quarter"))), './ctrx_quarter.csv') 
+```
+
+
+```{r}
+guardar_dataset(clusters, colnames(clusters %>% select(matches("mactivos_margen"))), './mactivos_margen.csv') 
+```
+
+
+```{r}
+guardar_dataset(clusters, colnames(clusters %>% select(matches("mcaja_ahorro"))), './mcaja_ahorro.csv') 
+```
+
+
+```{r}
+guardar_dataset(clusters, colnames(clusters %>% select(matches("mcuentas_saldo"))), './mcuentas_saldo.csv') 
+```
+
+
+```{r}
+guardar_dataset(clusters, colnames(clusters %>% select(matches("mpayroll"))), './mpayroll.csv') 
+```
+
+
+```{r}
+guardar_dataset(clusters, colnames(clusters %>% select(matches("mrentabilidad"))), './mrentabilidad.csv') 
+```
+
+
+```{r}
+guardar_dataset(clusters, colnames(clusters %>% select(matches("mtarjeta_visa_consumo"))), './mtarjeta_visa_consumo.csv') 
+```
+
+
+```{r}
+guardar_dataset(clusters, colnames(clusters %>% select(matches("Visa_cconsumos"))), './Visa_cconsumos.csv') 
+```
+
+
+```{r}
+guardar_dataset(clusters, colnames(clusters %>% select(matches("Visa_msaldopesos"))), './Visa_msaldopesos.csv') 
+```
+
+
+```{r}
+guardar_dataset(clusters, colnames(clusters %>% select(matches("Visa_msaldototal"))), './Visa_msaldototal.csv') 
+```
+
+
+```{r}
+guardar_dataset(clusters, colnames(clusters %>% select(matches("cliente_edad"))), './cliente_edad.csv') 
+```
+
+
+```{r}
+guardar_dataset(clusters, colnames(clusters %>% select(matches("cliente_antiguedad"))), './cliente_antiguedad.csv') 
+```
+
+
+```{r}
+clusters %>% select(matches("Visa_Finiciomora"))
+```
+
+
+```{r}
+# colnames(clusters)
+```
+
+
+
+
+```{r}
+guardar_dataset(clusters, colnames(clusters %>% select(matches("mtransferencias_recibidas"))), './mtransferencias_recibidas.csv') 
+```
+
+
+```{r}
+guardar_dataset(clusters, colnames(clusters %>% select(matches("mtransferencias_emitidas"))), './mtransferencias_emitidas.csv') 
+```
+
+```{r}
+guardar_dataset(clusters, colnames(clusters %>% select(matches("mpagomiscuentas"))), './mpagomiscuentas.csv') 
+```
+
+```{r}
+guardar_dataset(clusters, colnames(clusters %>% select(matches("thomebanking"))), './thomebanking.csv') 
+```
+
+```{r}
+guardar_dataset(clusters, colnames(clusters %>% select(matches("Visa_mfinanciacion_limite"))), './Visa_mfinanciacion_limite.csv') 
+```
+
+```{r}
+guardar_dataset(clusters, colnames(clusters %>% select(matches("Visa_mpagominimo"))), './Visa_mpagominimo.csv') 
+```
+
+```{r}
+guardar_dataset(clusters, colnames(clusters %>% select(matches("mactivos_margen"))), './mactivos_margen.csv') 
+```
+
+
+
+
+
+
+
+
+

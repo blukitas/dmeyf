@@ -40,9 +40,11 @@ require("data.table")
 
 ## Leer los datasets
 ```{r}
-version <-"v952"
+version <-"v951"
+# version <-"v952"
+# version <-"v953"
 # version <-"v1054"
-# version <-"v747_full"
+# version <-"v747"
 ```
 
 ```{r}
@@ -50,46 +52,98 @@ clusters <- read.table(paste0("./12.clustering",version,".csv"), header = TRUE, 
 head(clusters)
 ```
 ```{r}
-colnames(clusters) =  gsub(".x", "_mean", colnames(clusters))
-colnames(clusters) =  gsub(".y", "_std", colnames(clusters))
+colnames(clusters) =  gsub(".x", "_mean", colnames(clusters), fixed = TRUE)
+colnames(clusters) =  gsub(".y", "_std", colnames(clusters), fixed = TRUE)
 head(clusters)
 ```
+
+```{r}
+sort(colnames(clusters))
+```
+
+
+```{r}
+paste0("./datasets_nro_cli_cluster_",version,".csv")
+```
+
 
 ```{r}
 nro_cli <- read.table(paste0("./datasets_nro_cli_cluster_",version,".csv"), header = TRUE, sep = "\t")
 head(nro_cli)
 ```
 ```{r}
-version <- 'v952'
 paste0("./datasets_dataset_noviembre_",version,".gz")
 ```
 Levanto el útlimos dataset, donde voy a predecir. Me quedo con los baja+1, los que están cerca de irse. Los que clusterice, pero los veo solo para este último mes + sus lags/deltas
 
 ```{r}
 setwd("/home/lucas/Desktop/2021/Maestria/02.05.Data.Mining.E.y.F/Repo.TP/dmeyf/src/11.clustering/")  #Establezco el Working Directory
-dataset <- fread(paste0("./datasets_dataset_noviembre_",version,".gz"), stringsAsFactors= TRUE)
-dataset <- dataset[clase_ternaria =="BAJA+1",]
+# dataset <- fread(paste0("./datasets_dataset_noviembre_",version,".gz"), stringsAsFactors= TRUE)
+dataset <- fread(paste0("./datasets_dataset_2021_baja_1.csv.gz"), stringsAsFactors= TRUE)
+head(dataset)
+```
+```{r}
+table(dataset$clase_ternaria)
+```
 
+
+```{r}
+dataset <- dataset[clase_ternaria =="BAJA+1",]
 gc()
+```
+```{r}
+head(dataset)
 ```
 
 Junto numero de cliente y cluster
 
 ```{r}
-dataset[nro_cli, on = 'numero_de_cliente', cluster2 := cluster2]
+dataset[nro_cli, on = 'numero_de_cliente', cluster := cluster2]
 ```
 
 ### Columnas
 
 ```{r}
-colnames(dataset)
+colnames(dataset)[0:500]
+```
+
+```{r}
+colnames(dataset)[501:1100]
+```
+
+```{r}
+campos_buenos  <- c( "ctrx_quarter", "cpayroll_trx", "mcaja_ahorro", "mtarjeta_visa_consumo", "ctarjeta_visa_transacciones",
+                     "mcuentas_saldo", "mrentabilidad_annual", "mprestamos_personales", "mactivos_margen", "mpayroll",
+                     "Visa_mpagominimo", "Master_fechaalta", "cliente_edad", "chomebanking_transacciones", "Visa_msaldopesos",
+                     "Visa_Fvencimiento", "mrentabilidad", "Visa_msaldototal", "Master_Fvencimiento", "mcuenta_corriente",
+                     "Visa_mpagospesos", "Visa_fechaalta", "mcomisiones_mantenimiento", "Visa_mfinanciacion_limite",
+                     "mtransferencias_recibidas", "cliente_antiguedad", "Visa_mconsumospesos", "Master_mfinanciacion_limite",
+                     "mcaja_ahorro_dolares", "cproductos", "mcomisiones_otras", "thomebanking", "mcuenta_debitos_automaticos",
+                     "mcomisiones", "Visa_cconsumos", "ccomisiones_otras", "Master_status", "mtransferencias_emitidas",
+                     "mpagomiscuentas")
+```
+
+```{r}
+campos_lags = c()
+for (i in campos_buenos) 
+{ 
+    campos_lags <- append(campos_lags, c(paste0(i, '_lag1'), paste0(i, '_delta1'),paste0(i, '_lag3'), paste0(i, '_delta3'),paste0(i, '_lag6'), paste0(i, '_delta6')) )  
+}
+
+campos_lags
+```
+```{r}
+table(dataset$foto_mes)
+```
+
+## Distribución de clusters
+```{r}
+table(dataset$cluster)
 ```
 
 
-## Distribución de clusters
-
 ```{r}
-ggplot(dataset, aes(x = cluster2)) +
+ggplot(dataset, aes(x = cluster)) +
         geom_bar(alpha = 0.75, 
                  fill = "#1B9E77",
                  color = "white")+
@@ -101,19 +155,272 @@ ggplot(dataset, aes(x = cluster2)) +
 ## Media de variables y 
 
 ```{r}
+colnames(clusters)
+```
+
+
+### mcaja_ahorro + lags y deltas
+
+```{r}
 # d2 <- dataset[,c("cliente_edad", "cliente_antiguedad","mcaja_ahorro", "mcaja_ahorro_lag1", "mcaja_ahorro_lag2", "mcaja_ahorro_lag3", "mcaja_ahorro_lag6")]
-d2 <- dataset[,c("cliente_edad", "cliente_antiguedad","mcaja_ahorro", "mcaja_ahorro_lag1", "mcaja_ahorro_lag3", "mcaja_ahorro_lag6", "cluster2")]
+d2 <- dataset[,c("cliente_edad", "cliente_antiguedad","mcaja_ahorro", "mcaja_ahorro_lag1", "mcaja_ahorro_lag3", "mcaja_ahorro_lag6", "cluster")]
 # d2 <- dataset[,c("cliente_edad", "cliente_antiguedad","ctrx_quarter", "ctrx_quarter_lag1", "ctrx_quarter_lag3", "ctrx_quarter_lag6", "cluster2")]
 # d2 <- dataset[,c("cliente_edad", "cliente_antiguedad", "mtarjeta_visa_consumo", "mtarjeta_visa_consumo_lag1", "mtarjeta_visa_consumo_lag3", "mtarjeta_visa_consumo_lag6", "cluster2")]
-d2 [, lapply(.SD, mean), by = cluster2]
+d2 [, lapply(.SD, mean), by = cluster]
+```
+
+```{r}
+d2 <- dataset[,c("cliente_edad", "cliente_antiguedad","mcaja_ahorro", "mcaja_ahorro_delta1", "mcaja_ahorro_delta3", "mcaja_ahorro_delta6", "cluster")]
+# d2 <- dataset[,c("cliente_edad", "cliente_antiguedad","ctrx_quarter", "ctrx_quarter_lag1", "ctrx_quarter_lag3", "ctrx_quarter_lag6", "cluster2")]
+# d2 <- dataset[,c("cliente_edad", "cliente_antiguedad", "mtarjeta_visa_consumo", "mtarjeta_visa_consumo_lag1", "mtarjeta_visa_consumo_lag3", "mtarjeta_visa_consumo_lag6", "cluster2")]
+d2 [, lapply(.SD, mean), by = cluster]
 ```
 
 
 ```{r}
+d2 <- dataset[,c("cliente_edad", "cliente_antiguedad","ctrx_quarter", "ctrx_quarter_lag1", "ctrx_quarter_lag3", "ctrx_quarter_lag6", "cluster")]
+d2 [, lapply(.SD, mean), by = cluster]
+```
+
+```{r}
+d2 <- dataset[,c("cliente_edad", "cliente_antiguedad","ctrx_quarter", "ctrx_quarter_delta1", "ctrx_quarter_delta3", "ctrx_quarter_delta6", "cluster")]
+d2 [, lapply(.SD, mean), by = cluster]
+```
+
+
+```{r}
+d2 <- dataset[,c("cliente_edad", "cliente_antiguedad","mtarjeta_visa_consumo", "mtarjeta_visa_consumo_lag1", "mtarjeta_visa_consumo_lag3", "mtarjeta_visa_consumo_lag6", "cluster")]
+d2 [, lapply(.SD, mean), by = cluster]
+```
+
+```{r}
+d2 <- dataset[,c("cliente_edad", "cliente_antiguedad","mtarjeta_visa_consumo", "mtarjeta_visa_consumo_delta1", "mtarjeta_visa_consumo_delta3", "mtarjeta_visa_consumo_delta6", "cluster")]
+d2 [, lapply(.SD, mean), by = cluster]
+```
+
+
+```{r}
+d2 <- dataset[,c("cliente_edad", "cliente_antiguedad","cpayroll_trx", "cpayroll_trx_lag1", "cpayroll_trx_lag3", "cpayroll_trx_lag6", "cluster")]
+d2 [, lapply(.SD, mean), by = cluster]
+```
+
+```{r}
+d2 <- dataset[,c("cliente_edad", "cliente_antiguedad","cpayroll_trx", "cpayroll_trx_delta1", "cpayroll_trx_delta3", "cpayroll_trx_delta6", "cluster")]
+d2 [, lapply(.SD, mean), by = cluster]
+```
+
+
+
+```{r}
+d2 <- dataset[,c("cliente_edad", "cliente_antiguedad","mpayroll", "mpayroll_lag1", "mpayroll_lag3", "mpayroll_lag6", "cluster")]
+d2 [, lapply(.SD, mean), by = cluster]
+```
+
+
+```{r}
+d2 <- dataset[,c("cliente_edad", "cliente_antiguedad","mcuentas_saldo", "mcuentas_saldo_lag1", "mcuentas_saldo_lag3", "mcuentas_saldo_lag6", "cluster")]
+d2 [, lapply(.SD, mean), by = cluster]
+```
+
+
+```{r}
+d2 <- dataset[,c("cliente_edad", "cliente_antiguedad","mprestamos_personales", "mprestamos_personales_lag1", "mprestamos_personales_lag3", "mprestamos_personales_lag6", "cluster")]
+d2 [, lapply(.SD, mean), by = cluster]
+```
+
+
+
+
+```{r}
+d2 <- dataset[,c("cliente_edad", "cliente_antiguedad","mcaja_ahorro_dolares", "mcaja_ahorro_dolares_lag1", "mcaja_ahorro_dolares_lag3", "mcaja_ahorro_dolares_lag6", "cluster")]
+d2 [, lapply(.SD, mean), by = cluster]
+```
+
+
+
+```{r}
+d2 <- dataset[,c("ctarjeta_debito_transacciones", "ctarjeta_debito_transacciones_lag1", "ctarjeta_debito_transacciones_lag3", "ctarjeta_debito_transacciones_lag6", "cluster")]
+d2 [, lapply(.SD, mean), by = cluster]
+```
+
+```{r}
+d2 <- dataset[,c("cmobile_app_trx", "cmobile_app_trx_lag1", "cmobile_app_trx_lag3", "cmobile_app_trx_lag6", "cluster")]
+d2 [, lapply(.SD, mean), by = cluster]
+```
+
+
+## Ggplot
+
+```{r}
 ggplot(dataset, aes(x = cproductos, y = cliente_edad, fill = factor(cproductos))) +
   geom_boxplot() +
-  facet_wrap(~cluster2) +
+  facet_wrap(~cluster, labeller = label_both) +
   scale_y_continuous(name = "Edad promedio cluster") +
-  scale_x_discrete(labels=cproductos, name = "cant productos")
+  scale_x_discrete(labels=factor(dataset$cproductos), name = "cant productos")
 ```
+
+```{r}
+dataset[cluster==6,campos_buenos, with=FALSE]
+```
+
+
+```{r}
+ggplot(dataset, aes(x = cproductos, y = cliente_antiguedad, fill = factor(cproductos))) +
+  geom_boxplot() +
+  facet_wrap(~cluster, labeller = label_both, strip.position = "top") +
+  # scale_y_continuous(name = "Edad promedio cluster") +
+  # scale_x_discrete(labels=factor(dataset$cproductos), name = "cant productos") +
+  labs(title = "Cantidad de productos y antiguedad promedio de los clientes") +
+  labs(x = "Cantidad de productos", y = "Antiguedad promedio (En meses)") +
+  theme_bw() +
+  theme(legend.position = "top")
+```
+
+```{r} 
+#  echo=TRUE, fig.width=10, fig.height=5 }
+ggplot(dataset, aes(x = cpayroll_trx, y = cliente_antiguedad, fill = factor(cpayroll_trx))) +
+  geom_boxplot() +
+    facet_wrap(~cluster, labeller = label_both, strip.position = "top", switch="both",scale="fixed") +
+  # scale_y_continuous(name = "Edad promedio cluster") +
+  # scale_x_discrete(labels=factor(dataset$cproductos), name = "cant productos") +
+  labs(title = "Cantidad de productos y antiguedad promedio de los clientes") +
+  labs(x = "Cantidad de productos", y = "Antiguedad promedio (En meses)") +
+  theme_bw() +
+  theme(legend.position = "top")
+```
+
+* En el cluster 1 hay gente con al menos 1 CA y al menos 1 CC (En mayor proporcion)
+  * En el 7 y en el 3 tambien hay algunos peros es despreciable
+* En e cluster 1 => Todos tiene 1 visa (Ni más ni menos)
+* Vip solo aparece en el 5
+  * 2 visa solo en el 5
+* Sin master solo el 6
+  * En el resto parejo
+  * El 5 el más parejo
+* 1 y 5 con payroll
+
+
+```{r}
+ggplot(dataset, aes(x = cluster, y = log10(mttarjeta_visa_debitos_automaticos), fill = factor(cluster))) +
+  geom_boxplot() +
+  # facet_wrap(~cluster, labeller = label_both, strip.position = "top") +
+  # scale_y_continuous(name = "Edad promedio cluster") +
+  # scale_x_discrete(labels=factor(dataset$cproductos), name = "cant productos") +
+  # labs(title = "Cantidad de productos y antiguedad promedio de los clientes") +
+  # labs(x = "Cantidad de productos", y = "Antiguedad promedio (En meses)") +
+  theme_bw() +
+  theme(legend.position = "top")
+```
+
+```{r}
+ggplot(dataset, aes(x = cluster, y = log10(mrentabilidad), fill = factor(cluster))) +
+  geom_boxplot() +
+  # facet_wrap(~cluster, labeller = label_both, strip.position = "top") +
+  # scale_y_continuous(name = "Edad promedio cluster") +
+  # scale_x_discrete(labels=factor(dataset$cproductos), name = "cant productos") +
+  # labs(title = "Cantidad de productos y antiguedad promedio de los clientes") +
+  # labs(x = "Cantidad de productos", y = "Antiguedad promedio (En meses)") +
+  theme_bw() +
+  theme(legend.position = "top")
+```
+
+```{r}
+ggplot(dataset, aes(x = cluster, y = log10(mrentabilidad), fill = factor(cluster))) +
+  geom_boxplot() +
+  # facet_wrap(~cluster, labeller = label_both, strip.position = "top") +
+  # scale_y_continuous(name = "Edad promedio cluster") +
+  # scale_x_discrete(labels=factor(dataset$cproductos), name = "cant productos") +
+  # labs(title = "Cantidad de productos y antiguedad promedio de los clientes") +
+  # labs(x = "Cantidad de productos", y = "Antiguedad promedio (En meses)") +
+  theme_bw() +
+  theme(legend.position = "top")
+```
+
+```{r}
+ggplot(dataset, aes(x = cluster, y = log10(mrentabilidad), fill = factor(cluster))) +
+  geom_boxplot() +
+  # facet_wrap(~cluster, labeller = label_both, strip.position = "top") +
+  # scale_y_continuous(name = "Edad promedio cluster") +
+  # scale_x_discrete(labels=factor(dataset$cproductos), name = "cant productos") +
+  # labs(title = "Cantidad de productos y antiguedad promedio de los clientes") +
+  # labs(x = "Cantidad de productos", y = "Antiguedad promedio (En meses)") +
+  theme_bw() +
+  theme(legend.position = "top")
+```
+
+```{r}
+table(dataset$cluster, dataset$cpayroll_trx)
+```
+
+
+```{r}
+ggplot(dataset, aes(x = cluster, y = cpayroll_trx, fill = factor(cluster))) +
+    geom_bar(position="dodge", stat="identity")+
+  theme_bw() +
+  theme(legend.position = "top")
+```
+
+
+```{r}
+ggplot(dataset, aes(x = cluster, y = log10(mpayroll), fill = factor(cluster))) +
+  geom_boxplot() +
+  # facet_wrap(~cluster, labeller = label_both, strip.position = "top") +
+  # scale_y_continuous(name = "Edad promedio cluster") +
+  # scale_x_discrete(labels=factor(dataset$cproductos), name = "cant productos") +
+  # labs(title = "Cantidad de productos y antiguedad promedio de los clientes") +
+  # labs(x = "Cantidad de productos", y = "Antiguedad promedio (En meses)") +
+  theme_bw() +
+  theme(legend.position = "top")
+```
+
+```{r} 
+#  echo=TRUE, fig.width=10, fig.height=5 }
+ggplot(dataset, aes(x = cluster, y = log(mactivos_margen), fill = factor(cluster))) +
+  geom_boxplot() +
+    # facet_wrap(~cluster, labeller = label_both, strip.position = "top", switch="both",scale="fixed") +
+  theme_bw() +
+  theme(legend.position = "top")
+```
+
+```{r} 
+#  echo=TRUE, fig.width=10, fig.height=5 }
+ggplot(dataset, aes(x = cluster, y = log(mpasivos_margen), fill = factor(cluster))) +
+  geom_boxplot() +
+    # facet_wrap(~cluster, labeller = label_both, strip.position = "top", switch="both",scale="fixed") +
+  theme_bw() +
+  theme(legend.position = "top")
+```
+
+```{r} 
+#  echo=TRUE, fig.width=10, fig.height=5 }
+ggplot(dataset, aes(x = cluster, y = log(mrentabilidad_annual), fill = factor(cluster))) +
+  geom_boxplot() +
+    # facet_wrap(~cluster, labeller = label_both, strip.position = "top", switch="both",scale="fixed") +
+  theme_bw() +
+  theme(legend.position = "top")
+```
+
+
+```{r } 
+# echo=TRUE, fig.width=10}
+ggplot(dataset, aes(x=mrentabilidad, y=cproductos, color=factor(cluster))) + 
+    geom_point(size=2) +
+  xlim(-100, 1000) +
+  ylim(2.5, 10) +
+  theme_bw() +
+  theme(legend.position = "top")
+```
+
+```{r } 
+# echo=TRUE, fig.width=10}
+ggplot(dataset[dataset$cluster != 5], aes(x=log(mrentabilidad), y=log(mrentabilidad_annual), color=factor(cluster))) + 
+    geom_point(size=2, alpha=0.7) +
+  # xlim(-100, 2000) +
+  # ylim(0, 2e5) +
+  theme_bw() +
+  theme(legend.position = "top")
+```
+
+
+## Distribución de clusters
 
